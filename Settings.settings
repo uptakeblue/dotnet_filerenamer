@@ -17,5 +17,8 @@
     <Setting Name="AuthorId" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="TabPageName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">tabFiles</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

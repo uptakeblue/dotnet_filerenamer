@@ -9,7 +9,7 @@ namespace FileRenamer.Model {
         public Author( ) {
             this.AuthorId = -1;
         }
-        public Author( List<object> dataRow ) {
+        public Author( object[] dataRow ) {
             this.AuthorId = (int)dataRow[0];
             this.Last = (string)dataRow[1];
             this.First = (string)dataRow[2];

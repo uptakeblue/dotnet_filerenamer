@@ -82,5 +82,17 @@ namespace FileRenamer {
                 this["AuthorId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("tabFiles")]
+        public string TabPageName {
+            get {
+                return ((string)(this["TabPageName"]));
+            }
+            set {
+                this["TabPageName"] = value;
+            }
+        }
     }
 }
