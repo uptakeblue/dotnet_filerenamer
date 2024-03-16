@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 namespace FileRenamer.Model {
     public class Audiobook : IComparable {
 
+        public Audiobook( object[ ] dataRow ) {
+            this.AudiobookId = (int)dataRow[0];
+            this.Title = (string)dataRow[1];
+            this.YearSeries = (string)dataRow[2];
+            this.Number=(decimal)dataRow[3];
+            this.CreatedDate = (DateTime)dataRow[4];
+            this.ReadDate = (DateTime)dataRow[5];
+        }
+
         public Audiobook( string title ) : this( ) {
             if( !title.Contains( " - " ) ) {
                 this.Title = title;
@@ -50,7 +59,8 @@ namespace FileRenamer.Model {
         public string Title { get; set; }
         public string YearSeries { get; set; }
         public Decimal Number { get; set; }
-                public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ReadDate { get; set; }
 
         public override string ToString( ) {
             return string.Format( "AudiobookId: {0}\nAuthorId: {1}\nTitle: {2}\nYearSeries: {3}\nNumber: {4}", this.AudiobookId, this.AuthorId, this.Title, this.YearSeries, this.Number );
@@ -59,6 +69,12 @@ namespace FileRenamer.Model {
         public int CompareTo( object obj ) {
             var audiobook = (Audiobook)obj;
             return this.Title.CompareTo( audiobook.Title);
+        }
+
+        public object[ ] valueArray {
+            get {
+                return new object[ ] { AudiobookId, Title, YearSeries, Number, CreatedDate, (ReadDate != null) };
+            }
         }
 
 

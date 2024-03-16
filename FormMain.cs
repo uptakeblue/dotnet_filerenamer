@@ -1,5 +1,6 @@
 ﻿using FileRenamer.Model;
 using FileRenamer.Operations;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +26,7 @@ namespace FileRenamer
         private Author _author = new Author( );
         private Audiobook _audiobook = new Audiobook( );
 
-        private List<Audiobook> _allAudiobooks;
+        private List<Audiobook> _audiobooks;
         private List<Author> _allAuthors = AuthorOperations.Author_GetList();
 
         public FormMain()
@@ -65,7 +66,7 @@ namespace FileRenamer
             _settings.Size = this.Size;
             _settings.Location = this.Location;
             _settings.SplitterDistance = spltFiles.SplitterDistance;
-            //_settings.AuthorId = (int)cboAuthor.SelectedValue;
+            _settings.AuthorId = (int)cboAuthor.SelectedValue;
 
             _settings.TabPageName = tabMain.SelectedTab.Name;
             _settings.Save( );
@@ -75,9 +76,9 @@ namespace FileRenamer
 
         private void tabMain_SelectedIndexChanged( object sender, EventArgs e ) {
             if( tabMain.SelectedTab.Name == "tabFiles" ) {
-//                if( cboAuthor.SelectedIndex == -1 ) {
-//                    cboAuthor.SelectedIndex = 0;
-//                }
+                if( cboAuthor.SelectedIndex == -1 ) {
+                    cboAuthor.SelectedIndex = 0;
+                }
             }
 
         }
@@ -103,6 +104,18 @@ namespace FileRenamer
 
         private void FormMain_MouseUp( object sender, MouseEventArgs e ) {
             _dragging = false;
+        }
+
+        private void cboAuthor_SelectedIndexChanged( object sender, EventArgs e ) {
+            var authorId = (int)cboAuthor.SelectedValue;
+            var audiobooks = AudiobookOperation.Audiobook_GetListByAuthor( authorId );
+
+            grdAudiobook.Rows.Clear( );
+
+            foreach( var audiobook in audiobooks ) {
+                grdAudiobook.Rows.Add( audiobook.valueArray );
+            }
+
         }
     }
 }

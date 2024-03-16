@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.lstRenamedFiles = new System.Windows.Forms.ListBox();
             this.lblRenamedFiles = new System.Windows.Forms.Label();
             this.lstSourceFiles = new System.Windows.Forms.ListBox();
             this.lblSourceFiles = new System.Windows.Forms.Label();
             this.tabFiles = new System.Windows.Forms.TabPage();
+            this.btnExit = new System.Windows.Forms.Button();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pgbRename = new System.Windows.Forms.ProgressBar();
             this.lblAudiobook = new System.Windows.Forms.Label();
@@ -64,10 +65,10 @@
             this.ofDialog = new System.Windows.Forms.OpenFileDialog();
             this.file_renamer_log_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.YearSeries = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Current = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.is_read = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.btnExit = new System.Windows.Forms.Button();
             this.tabFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spltFiles)).BeginInit();
             this.spltFiles.Panel1.SuspendLayout();
@@ -151,6 +152,22 @@
             this.tabFiles.Size = new System.Drawing.Size(540, 571);
             this.tabFiles.TabIndex = 0;
             this.tabFiles.Text = "Files";
+            // 
+            // btnExit
+            // 
+            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(119)))), ((int)(((byte)(99)))));
+            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnExit.FlatAppearance.BorderSize = 0;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnExit.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.Image")));
+            this.btnExit.Location = new System.Drawing.Point(505, 5);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(24, 19);
+            this.btnExit.TabIndex = 106;
+            this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // lblTitle
             // 
@@ -342,6 +359,7 @@
             this.cboAuthor.Size = new System.Drawing.Size(210, 21);
             this.cboAuthor.TabIndex = 0;
             this.cboAuthor.ValueMember = "Key";
+            this.cboAuthor.SelectedIndexChanged += new System.EventHandler(this.cboAuthor_SelectedIndexChanged);
             // 
             // tabMain
             // 
@@ -417,17 +435,18 @@
             this.grdAudiobook.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.file_renamer_log_id,
             this.title,
+            this.YearSeries,
+            this.Number,
             this.date,
-            this.Current,
             this.is_read});
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle4;
             this.grdAudiobook.Location = new System.Drawing.Point(8, 87);
             this.grdAudiobook.MultiSelect = false;
             this.grdAudiobook.Name = "grdAudiobook";
@@ -459,29 +478,28 @@
             this.title.Name = "title";
             this.title.ReadOnly = true;
             // 
+            // YearSeries
+            // 
+            this.YearSeries.HeaderText = "YearSeries";
+            this.YearSeries.Name = "YearSeries";
+            // 
+            // Number
+            // 
+            this.Number.HeaderText = "Number";
+            this.Number.Name = "Number";
+            this.Number.Width = 50;
+            // 
             // date
             // 
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle9.Format = "d";
-            dataGridViewCellStyle9.NullValue = null;
-            this.date.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "d";
+            dataGridViewCellStyle3.NullValue = null;
+            this.date.DefaultCellStyle = dataGridViewCellStyle3;
             this.date.HeaderText = "Date";
             this.date.MinimumWidth = 15;
             this.date.Name = "date";
             this.date.ReadOnly = true;
             this.date.Width = 75;
-            // 
-            // Current
-            // 
-            this.Current.FalseValue = "False";
-            this.Current.HeaderText = "Current";
-            this.Current.IndeterminateValue = "False";
-            this.Current.MinimumWidth = 15;
-            this.Current.Name = "Current";
-            this.Current.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Current.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Current.TrueValue = "True";
-            this.Current.Width = 45;
             // 
             // is_read
             // 
@@ -493,22 +511,6 @@
             this.is_read.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.is_read.TrueValue = "True";
             this.is_read.Width = 45;
-            // 
-            // btnExit
-            // 
-            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(119)))), ((int)(((byte)(99)))));
-            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnExit.FlatAppearance.BorderSize = 0;
-            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnExit.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.Image")));
-            this.btnExit.Location = new System.Drawing.Point(505, 5);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(24, 19);
-            this.btnExit.TabIndex = 106;
-            this.btnExit.UseVisualStyleBackColor = false;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // FormMain
             // 
@@ -579,8 +581,9 @@
         private System.Windows.Forms.OpenFileDialog ofDialog;
         private System.Windows.Forms.DataGridViewTextBoxColumn file_renamer_log_id;
         private System.Windows.Forms.DataGridViewTextBoxColumn title;
+        private System.Windows.Forms.DataGridViewTextBoxColumn YearSeries;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Number;
         private System.Windows.Forms.DataGridViewTextBoxColumn date;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Current;
         private System.Windows.Forms.DataGridViewCheckBoxColumn is_read;
     }
 }
