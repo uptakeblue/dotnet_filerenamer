@@ -7,10 +7,14 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FileRenamer
 {
     public static class AuthorOperations {
+
+        const string _module = "AuthorOperation";
+
         /// <summary>
         /// Returns a list of all authors
         /// </summary>
@@ -33,10 +37,16 @@ namespace FileRenamer
                     authorList.Add( author );
                 }
             }
-            catch {
+            catch( Exception e ) {
+                MessageBox.Show( string.Format( "{0}.Author_GetList:\n{1}", _module, e.Message) );
 
             }
             return authorList;
+        }
+
+        public static Author Author_Get( int authorId ) {
+            Author author = null;
+            return author;
         }
 
         public static Author Author_Get( string last, string first ) {

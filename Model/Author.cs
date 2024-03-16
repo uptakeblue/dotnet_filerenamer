@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FileRenamer.Model {
-    public class Author : IComparable {
+    public class Author {
         public Author( ) {
             this.AuthorId = -1;
         }
@@ -39,8 +39,5 @@ namespace FileRenamer.Model {
             return string.Format( "AuthorId: {0}\nLast: {1}\nFirst: {2}", this.AuthorId, this.Last, this.First );
         }
 
-        public int CompareTo( object obj ) {
-            return this.NameReversed.CompareTo( ( (Author)obj ).NameReversed );
-        }
     }
 }

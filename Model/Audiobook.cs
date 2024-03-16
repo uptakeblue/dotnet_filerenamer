@@ -5,15 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FileRenamer.Model {
-    public class Audiobook : IComparable {
+    public class Audiobook {
 
         public Audiobook( object[ ] dataRow ) {
             this.AudiobookId = (int)dataRow[0];
             this.Title = (string)dataRow[1];
-            this.YearSeries = (string)dataRow[2];
-            this.Number=(decimal)dataRow[3];
+            this.YearSeries = dataRow[2] != DBNull.Value ? (string)dataRow[2] : null;
+            // this.Number = dataRow[3] != DBNull.Value ? (decimal)dataRow[3] : 0.0M;
+            if( dataRow[3] != DBNull.Value ) {
+                this.Number = (decimal)dataRow[3];
+            }
             this.CreatedDate = (DateTime)dataRow[4];
-            this.ReadDate = (DateTime)dataRow[5];
+            //this.ReadDate = null;
+            if( dataRow[5] != DBNull.Value ) {
+                this.ReadDate = (DateTime)dataRow[5];
+            }
         }
 
         public Audiobook( string title ) : this( ) {
@@ -58,22 +64,17 @@ namespace FileRenamer.Model {
         public int AudiobookId { get; set; }
         public string Title { get; set; }
         public string YearSeries { get; set; }
-        public Decimal Number { get; set; }
+        public Decimal? Number { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime ReadDate { get; set; }
+        public DateTime? ReadDate { get; set; }
 
         public override string ToString( ) {
             return string.Format( "AudiobookId: {0}\nAuthorId: {1}\nTitle: {2}\nYearSeries: {3}\nNumber: {4}", this.AudiobookId, this.AuthorId, this.Title, this.YearSeries, this.Number );
         }
 
-        public int CompareTo( object obj ) {
-            var audiobook = (Audiobook)obj;
-            return this.Title.CompareTo( audiobook.Title);
-        }
-
         public object[ ] valueArray {
             get {
-                return new object[ ] { AudiobookId, Title, YearSeries, Number, CreatedDate, (ReadDate != null) };
+                return new object[ ] { AudiobookId, YearSeries, Number, Title, CreatedDate, (ReadDate != null) };
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using FileRenamer.Model;
+﻿using FileRenamer.Forms;
+using FileRenamer.Model;
 using FileRenamer.Operations;
 using Org.BouncyCastle.Asn1.X509;
 using System;
@@ -13,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FileRenamer
+namespace FileRenamer.Forms
 {
     public partial class FormMain : Form{
         private bool _dragging = false;
@@ -26,7 +27,7 @@ namespace FileRenamer
         private Author _author = new Author( );
         private Audiobook _audiobook = new Audiobook( );
 
-        private List<Audiobook> _audiobooks;
+        //private List<Audiobook> _audiobooks;
         private List<Author> _allAuthors = AuthorOperations.Author_GetList();
 
         public FormMain()
@@ -56,7 +57,11 @@ namespace FileRenamer
             foreach( var author in _allAuthors ) {
                 authors.Add( author.KeyValuePair );
             }
+            
             cboAuthor.DataSource = authors;
+            if(_settings.AuthorId > 0 ) {
+                cboAuthor.SelectedValue = _settings.AuthorId;
+            }
 
             this.CancelButton = btnExit;
 
@@ -109,11 +114,24 @@ namespace FileRenamer
         private void cboAuthor_SelectedIndexChanged( object sender, EventArgs e ) {
             var authorId = (int)cboAuthor.SelectedValue;
             var audiobooks = AudiobookOperation.Audiobook_GetListByAuthor( authorId );
-
+            var sortedAudiobooks = audiobooks.OrderBy( a => a.YearSeries).ThenBy(a=>a.Number).ThenBy(a=>a.Title).ToList();
             grdAudiobook.Rows.Clear( );
 
-            foreach( var audiobook in audiobooks ) {
+            foreach( var audiobook in sortedAudiobooks ) {
                 grdAudiobook.Rows.Add( audiobook.valueArray );
+            }
+
+        }
+
+        private void btnFolder_Click( object sender, EventArgs e ) {
+            if( folderBrowser.ShowDialog( ) == DialogResult.OK ) {
+                string folderPath = folderBrowser.SelectedPath;
+                txtFolder.Text = folderPath;
+                populateAudiobookControls( folderPath );
+                _settings.Folder = folderPath;
+                _settings.Save( );
+                populateSourceFileList( folderPath );
+                generateFileNames( );
             }
 
         }

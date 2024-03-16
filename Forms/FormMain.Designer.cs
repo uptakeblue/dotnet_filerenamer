@@ -1,4 +1,4 @@
-﻿namespace FileRenamer
+﻿namespace FileRenamer.Forms
 {
     partial class FormMain
     {
@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.lstRenamedFiles = new System.Windows.Forms.ListBox();
             this.lblRenamedFiles = new System.Windows.Forms.Label();
@@ -63,10 +63,10 @@
             this.grdAudiobook = new System.Windows.Forms.DataGridView();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.ofDialog = new System.Windows.Forms.OpenFileDialog();
-            this.file_renamer_log_id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.audiobookId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.YearSeries = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.is_read = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabFiles.SuspendLayout();
@@ -329,6 +329,7 @@
             this.btnFolder.Tag = "BrowseFolders";
             this.btnFolder.Text = "...";
             this.btnFolder.UseVisualStyleBackColor = true;
+            this.btnFolder.Click += new System.EventHandler(this.btnFolder_Click);
             // 
             // txtFolder
             // 
@@ -431,25 +432,29 @@
             // 
             // grdAudiobook
             // 
+            this.grdAudiobook.AllowUserToAddRows = false;
+            this.grdAudiobook.AllowUserToDeleteRows = false;
+            this.grdAudiobook.AllowUserToResizeRows = false;
             this.grdAudiobook.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdAudiobook.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.file_renamer_log_id,
-            this.title,
+            this.audiobookId,
             this.YearSeries,
             this.Number,
+            this.title,
             this.date,
             this.is_read});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle6;
             this.grdAudiobook.Location = new System.Drawing.Point(8, 87);
             this.grdAudiobook.MultiSelect = false;
             this.grdAudiobook.Name = "grdAudiobook";
+            this.grdAudiobook.ReadOnly = true;
             this.grdAudiobook.RowHeadersVisible = false;
             this.grdAudiobook.RowHeadersWidth = 28;
             this.grdAudiobook.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.SteelBlue;
@@ -461,14 +466,31 @@
             // 
             this.ofDialog.FileName = "openFileDialog1";
             // 
-            // file_renamer_log_id
+            // audiobookId
             // 
-            this.file_renamer_log_id.HeaderText = "file_renamer_log_id";
-            this.file_renamer_log_id.MinimumWidth = 15;
-            this.file_renamer_log_id.Name = "file_renamer_log_id";
-            this.file_renamer_log_id.ReadOnly = true;
-            this.file_renamer_log_id.Visible = false;
-            this.file_renamer_log_id.Width = 300;
+            this.audiobookId.HeaderText = "audiobookId";
+            this.audiobookId.MinimumWidth = 15;
+            this.audiobookId.Name = "audiobookId";
+            this.audiobookId.ReadOnly = true;
+            this.audiobookId.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.audiobookId.Visible = false;
+            this.audiobookId.Width = 300;
+            // 
+            // YearSeries
+            // 
+            this.YearSeries.HeaderText = "YearSeries";
+            this.YearSeries.Name = "YearSeries";
+            this.YearSeries.ReadOnly = true;
+            this.YearSeries.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.YearSeries.Width = 80;
+            // 
+            // Number
+            // 
+            this.Number.HeaderText = "Number";
+            this.Number.Name = "Number";
+            this.Number.ReadOnly = true;
+            this.Number.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Number.Width = 50;
             // 
             // title
             // 
@@ -477,28 +499,19 @@
             this.title.MinimumWidth = 150;
             this.title.Name = "title";
             this.title.ReadOnly = true;
-            // 
-            // YearSeries
-            // 
-            this.YearSeries.HeaderText = "YearSeries";
-            this.YearSeries.Name = "YearSeries";
-            // 
-            // Number
-            // 
-            this.Number.HeaderText = "Number";
-            this.Number.Name = "Number";
-            this.Number.Width = 50;
+            this.title.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // date
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "d";
-            dataGridViewCellStyle3.NullValue = null;
-            this.date.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "d";
+            dataGridViewCellStyle5.NullValue = null;
+            this.date.DefaultCellStyle = dataGridViewCellStyle5;
             this.date.HeaderText = "Date";
             this.date.MinimumWidth = 15;
             this.date.Name = "date";
             this.date.ReadOnly = true;
+            this.date.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.date.Width = 75;
             // 
             // is_read
@@ -508,6 +521,7 @@
             this.is_read.IndeterminateValue = "False";
             this.is_read.MinimumWidth = 15;
             this.is_read.Name = "is_read";
+            this.is_read.ReadOnly = true;
             this.is_read.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.is_read.TrueValue = "True";
             this.is_read.Width = 45;
@@ -579,10 +593,10 @@
         private System.Windows.Forms.DataGridView grdAudiobook;
         private System.Windows.Forms.FolderBrowserDialog folderBrowser;
         private System.Windows.Forms.OpenFileDialog ofDialog;
-        private System.Windows.Forms.DataGridViewTextBoxColumn file_renamer_log_id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn title;
+        private System.Windows.Forms.DataGridViewTextBoxColumn audiobookId;
         private System.Windows.Forms.DataGridViewTextBoxColumn YearSeries;
         private System.Windows.Forms.DataGridViewTextBoxColumn Number;
+        private System.Windows.Forms.DataGridViewTextBoxColumn title;
         private System.Windows.Forms.DataGridViewTextBoxColumn date;
         private System.Windows.Forms.DataGridViewCheckBoxColumn is_read;
     }

@@ -6,9 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FileRenamer.Operations {
     public static class AudiobookOperation {
+
+        const string _module = "AudiobookOperation";
 
         /// <summary>
         /// Returns a list of audiobooks for a specific author, retrieved by authorId
@@ -40,8 +43,8 @@ namespace FileRenamer.Operations {
 
                 }
             }
-            catch {
-
+            catch (Exception e) {
+                MessageBox.Show( string.Format( "{0}.Audiobook_GetListByAuthor:\n{1}", _module, e.Message ) );
             }
 
 
@@ -59,7 +62,12 @@ namespace FileRenamer.Operations {
             return audiobookList;
         }
 
-        public static void AudiobookPost(int authorId, string title, string yearSeries, decimal number ) {
+        public static Audiobook Audiobook_Get( int audiobookId ) {
+            var audiobook = new Audiobook();
+            return audiobook;
+        }
+
+        public static void Audiobook_Post(int authorId, string title, string yearSeries, decimal number ) {
 
         }
 
