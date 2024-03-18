@@ -189,7 +189,8 @@ namespace FileRenamer.Forms
                         if( _audiobook.AuthorId.CompareTo( _author.AuthorId ) != 0 ) {
                             // if the audiobook has a different author, update it
                             _audiobook.AuthorId = _author.AuthorId;
-                            _audiobook = AudiobookOperation.Audiobook_Put( _audiobook );
+                            AudiobookOperation.Audiobook_Put( _audiobook );
+                            _audiobook = AudiobookOperation.Audiobook_Get( _audiobook.AudiobookId );
                         }
                         refreshData( );
                         populateAuthors( );

@@ -81,11 +81,40 @@ namespace FileRenamer.Operations {
         }
 
         public static Audiobook Audiobook_Post(int authorId, string title ) {
-            var audiobook = new Audiobook( );
+            Audiobook audiobook = null;
+            var conn = new MySqlConnection( );
+            conn.ConnectionString = _connectionString;
+
+            try {
+
+                conn.Open( );
+                var cmd = conn.CreateCommand( );
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.audiobook_Post";
+
+                cmd.Parameters.AddWithValue( "@author_id", authorId );
+                cmd.Parameters.AddWithValue( "@year_series", null );
+                cmd.Parameters.AddWithValue( "@number", null );
+                cmd.Parameters.AddWithValue( "@title", title );
+                cmd.Parameters.AddWithValue( "@note", null );
+                cmd.Parameters.AddWithValue( "@read_date", null );
+
+                cmd.Parameters.Add( "@audiobook_id", MySqlDbType.Int32 );
+                cmd.Parameters["@audiobook_id"].Direction = ParameterDirection.Output;
+
+                cmd.ExecuteNonQuery( );
+
+                var audiobookId = (int)cmd.Parameters["@audiobook_id"].Value;
+                audiobook = Audiobook_Get( audiobookId );
+
+            }
+            catch( Exception e ) {
+                MessageBox.Show( e.Message, string.Format( "{0}.Audiobook_Get(audiobookId)", _module ) );
+            }
             return audiobook;
         }
 
-        public static Audiobook Audiobook_Put( int audiobookId, int authorId, string yearSeries, decimal number, string title ) {
+        public static void Audiobook_Put( Audiobook audiobook ) {
             var conn = new MySqlConnection( );
             conn.ConnectionString = _connectionString;
 
@@ -96,22 +125,19 @@ namespace FileRenamer.Operations {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.audiobook_PutLimited";
 
-                cmd.Parameters.AddWithValue( "@audiobook_id", audiobookId );
-                cmd.Parameters.AddWithValue( "@author_id", authorId );
-                cmd.Parameters.AddWithValue( "@year_series", yearSeries );
-                cmd.Parameters.AddWithValue( "@number", number );
-                cmd.Parameters.AddWithValue( "@title", title );
+                cmd.Parameters.AddWithValue( "@audiobook_id", audiobook.AudiobookId );
+                cmd.Parameters.AddWithValue( "@author_id", audiobook.AuthorId );
+                cmd.Parameters.AddWithValue( "@year_series", audiobook.YearSeries );
+                cmd.Parameters.AddWithValue( "@number", audiobook.Number );
+                cmd.Parameters.AddWithValue( "@title", audiobook.Title );
 
-                MySqlDataReader rdr = cmd.ExecuteReader( );
-                while( rdr.Read( ) ) {
-                    object[ ] datarow = { rdr[0], rdr[1], rdr[2], rdr[3], rdr[4], rdr[5], rdr[6], rdr[8], rdr[11] };
-                    audiobook = new Audiobook( datarow );
-                }
+                cmd.ExecuteNonQuery( );
+                
             }
             catch( Exception e ) {
                 MessageBox.Show( e.Message, string.Format( "{0}.Audiobook_Get(audiobookId)", _module ) );
             }
-            return audiobook;
+            
 
         }
 

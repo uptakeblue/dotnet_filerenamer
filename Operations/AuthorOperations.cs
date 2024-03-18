@@ -120,6 +120,33 @@ namespace FileRenamer
 
         public static Author Author_Post( string last, string first ) {
             Author author = null;
+            
+            var conn = new MySqlConnection( );
+            conn.ConnectionString = _connectionString;
+
+            try {
+
+                conn.Open( );
+                var cmd = conn.CreateCommand( );
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.author_Post";
+
+                cmd.Parameters.AddWithValue( "@last", last );
+                cmd.Parameters.AddWithValue( "@first", first );
+                cmd.Parameters.AddWithValue( "@note", null );
+
+                cmd.Parameters.Add( "@author_id", MySqlDbType.Int32 );
+                cmd.Parameters["@author_id"].Direction = ParameterDirection.Output;
+
+                cmd.ExecuteNonQuery( );
+
+                var authorId = (int)cmd.Parameters["@author_id"].Value;
+                author = Author_Get( authorId );
+
+            }
+            catch( Exception e ) {
+                MessageBox.Show( e.Message, string.Format( "{0}.Audiobook_Get(audiobookId)", _module ) );
+            }
             return author;
         }
 
