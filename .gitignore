@@ -3,3 +3,4 @@ packages/
 bin/
 .vs/
 _App.config
+App.config
