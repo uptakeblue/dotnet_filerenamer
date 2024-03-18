@@ -1,6 +1,6 @@
 ﻿namespace FileRenamer.Forms
 {
-    partial class FormMain
+    partial class FrmMain
     {
         /// <summary>
         /// Required designer variable.
@@ -28,16 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.lstRenamedFiles = new System.Windows.Forms.ListBox();
             this.lblRenamedFiles = new System.Windows.Forms.Label();
             this.lstSourceFiles = new System.Windows.Forms.ListBox();
             this.lblSourceFiles = new System.Windows.Forms.Label();
             this.tabFiles = new System.Windows.Forms.TabPage();
-            this.btnExit = new System.Windows.Forms.Button();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pgbRename = new System.Windows.Forms.ProgressBar();
             this.lblAudiobook = new System.Windows.Forms.Label();
@@ -61,14 +60,15 @@
             this.lblConnection = new System.Windows.Forms.Label();
             this.llRefresh = new System.Windows.Forms.LinkLabel();
             this.grdAudiobook = new System.Windows.Forms.DataGridView();
-            this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.ofDialog = new System.Windows.Forms.OpenFileDialog();
             this.audiobookId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.YearSeries = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.is_read = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            this.ofDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnExit = new System.Windows.Forms.Button();
             this.tabFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spltFiles)).BeginInit();
             this.spltFiles.Panel1.SuspendLayout();
@@ -83,6 +83,7 @@
             // 
             this.backgroundWorker1.WorkerReportsProgress = true;
             this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // lstRenamedFiles
             // 
@@ -153,22 +154,6 @@
             this.tabFiles.TabIndex = 0;
             this.tabFiles.Text = "Files";
             // 
-            // btnExit
-            // 
-            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(119)))), ((int)(((byte)(99)))));
-            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnExit.FlatAppearance.BorderSize = 0;
-            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnExit.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.Image")));
-            this.btnExit.Location = new System.Drawing.Point(505, 5);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(24, 19);
-            this.btnExit.TabIndex = 106;
-            this.btnExit.UseVisualStyleBackColor = false;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
@@ -211,6 +196,7 @@
             this.txtAuthor.ReadOnly = true;
             this.txtAuthor.Size = new System.Drawing.Size(178, 20);
             this.txtAuthor.TabIndex = 114;
+            this.txtAuthor.DoubleClick += new System.EventHandler(this.txtAuthor_DoubleClick);
             // 
             // txtAudiobook
             // 
@@ -219,6 +205,7 @@
             this.txtAudiobook.Name = "txtAudiobook";
             this.txtAudiobook.Size = new System.Drawing.Size(360, 20);
             this.txtAudiobook.TabIndex = 113;
+            this.txtAudiobook.DoubleClick += new System.EventHandler(this.txtAudiobook_DoubleClick);
             // 
             // lblAuthor
             // 
@@ -252,6 +239,7 @@
             this.btnGenerateName.Text = "Generate Filenames";
             this.btnGenerateName.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnGenerateName.UseVisualStyleBackColor = true;
+            this.btnGenerateName.Click += new System.EventHandler(this.btnGenerateName_Click);
             // 
             // txtRename
             // 
@@ -294,6 +282,7 @@
             this.btnRename.Tag = "RenameFiles";
             this.btnRename.Text = "Rename";
             this.btnRename.UseVisualStyleBackColor = true;
+            this.btnRename.Click += new System.EventHandler(this.btnRename_Click);
             // 
             // btnClear
             // 
@@ -306,6 +295,7 @@
             this.btnClear.Tag = "Clear";
             this.btnClear.Text = "&Clear";
             this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // lblFolder
             // 
@@ -443,14 +433,14 @@
             this.title,
             this.date,
             this.is_read});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle4;
             this.grdAudiobook.Location = new System.Drawing.Point(8, 87);
             this.grdAudiobook.MultiSelect = false;
             this.grdAudiobook.Name = "grdAudiobook";
@@ -461,10 +451,7 @@
             this.grdAudiobook.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdAudiobook.Size = new System.Drawing.Size(529, 462);
             this.grdAudiobook.TabIndex = 2;
-            // 
-            // ofDialog
-            // 
-            this.ofDialog.FileName = "openFileDialog1";
+            this.grdAudiobook.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdAudiobook_CellDoubleClick);
             // 
             // audiobookId
             // 
@@ -503,10 +490,10 @@
             // 
             // date
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "d";
-            dataGridViewCellStyle5.NullValue = null;
-            this.date.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "d";
+            dataGridViewCellStyle3.NullValue = null;
+            this.date.DefaultCellStyle = dataGridViewCellStyle3;
             this.date.HeaderText = "Date";
             this.date.MinimumWidth = 15;
             this.date.Name = "date";
@@ -526,7 +513,27 @@
             this.is_read.TrueValue = "True";
             this.is_read.Width = 45;
             // 
-            // FormMain
+            // ofDialog
+            // 
+            this.ofDialog.FileName = "openFileDialog1";
+            // 
+            // btnExit
+            // 
+            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(119)))), ((int)(((byte)(99)))));
+            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnExit.FlatAppearance.BorderSize = 0;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnExit.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.Image")));
+            this.btnExit.Location = new System.Drawing.Point(505, 5);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(24, 19);
+            this.btnExit.TabIndex = 106;
+            this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -537,7 +544,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "FormMain";
+            this.Name = "FrmMain";
             this.Text = "File Renamer";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FormMain_MouseDown);

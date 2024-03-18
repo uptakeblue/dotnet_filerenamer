@@ -1,4 +1,5 @@
 ﻿using FileRenamer.Model;
+using FileRenamer.Operations;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ using System.Windows.Forms;
 namespace FileRenamer
 {
     public static class AuthorOperations {
+
+        static string _connectionString = GeneralOperations.GetConnectionString( );
 
         const string _module = "AuthorOperation";
 
@@ -44,6 +47,19 @@ namespace FileRenamer
             return authorList;
         }
 
+        public static List<KeyValuePair<int, string>> Author_GetListKVP( ) {
+            var list = new List<KeyValuePair<int, string>>( );
+            var allAuthors = Author_GetList( );
+            if( allAuthors != null ) {
+                list.Add( new KeyValuePair<int, string>( 0, "All Authors" ) );
+                foreach( var author in allAuthors ) {
+                    list.Add( new KeyValuePair<int, string>( author.AuthorId, author.NameReversed ) );
+                }
+            }
+            return list;
+        }
+
+
         public static Author Author_Get( int authorId ) {
             Author author = null;
             return author;
@@ -54,8 +70,9 @@ namespace FileRenamer
             return author;
         }
 
-        public static void AuthorPost( string last, string first ) {
-
+        public static Author Author_Post( string last, string first ) {
+            Author author = null;
+            return author;
         }
 
     }

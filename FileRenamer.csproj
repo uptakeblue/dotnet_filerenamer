@@ -101,19 +101,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\FormMain.Functions.cs">
+    <Compile Include="Forms\FrmAuthorSelect.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmAuthorSelect.Designer.cs">
+      <DependentUpon>FrmAuthorSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmMain.Functions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmAudiobook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmAudiobook.Designer.cs">
+      <DependentUpon>FrmAudiobook.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Audiobook.cs" />
     <Compile Include="Model\Author.cs" />
+    <Compile Include="Model\FileItem.cs" />
+    <Compile Include="Model\FileItemList.cs" />
     <Compile Include="Model\FolderpathInfo.cs" />
+    <Compile Include="Model\TagInfo.cs" />
     <Compile Include="Operations\AudiobookOperation.cs" />
     <Compile Include="Operations\AuthorOperations.cs" />
-    <Compile Include="Forms\FormMain.cs">
+    <Compile Include="Forms\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FormMain.Designer.cs">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <Compile Include="Forms\FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Operations\GeneralOperations.cs" />
     <Compile Include="Program.cs" />
@@ -123,8 +138,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Forms\FormMain.resx">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FrmAudiobook.resx">
+      <DependentUpon>FrmAudiobook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmAuthorSelect.resx">
+      <DependentUpon>FrmAuthorSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -150,7 +171,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="_App.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

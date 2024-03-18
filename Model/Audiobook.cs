@@ -9,16 +9,18 @@ namespace FileRenamer.Model {
 
         public Audiobook( object[ ] dataRow ) {
             this.AudiobookId = (int)dataRow[0];
-            this.Title = (string)dataRow[1];
-            this.YearSeries = dataRow[2] != DBNull.Value ? (string)dataRow[2] : null;
-            // this.Number = dataRow[3] != DBNull.Value ? (decimal)dataRow[3] : 0.0M;
-            if( dataRow[3] != DBNull.Value ) {
-                this.Number = (decimal)dataRow[3];
-            }
-            this.CreatedDate = (DateTime)dataRow[4];
-            //this.ReadDate = null;
+            this.AuthorId = (int)dataRow[1];
+            this._authorLast=(string)dataRow[2];
+            this._authorFirst=(string)dataRow[3];
+
+            this.YearSeries = dataRow[4] != DBNull.Value ? (string)dataRow[4] : null;
             if( dataRow[5] != DBNull.Value ) {
-                this.ReadDate = (DateTime)dataRow[5];
+                this.Number = (decimal)dataRow[5];
+            }
+            this.Title = (string)dataRow[6];           
+            this.CreatedDate = (DateTime)dataRow[7];
+            if( dataRow[8] != DBNull.Value ) {
+                this.ReadDate = (DateTime)dataRow[8];
             }
         }
 
@@ -61,6 +63,8 @@ namespace FileRenamer.Model {
             this.YearSeries = string.Empty;
         }
         public int AuthorId { get; set; }
+        private string _authorLast {  get; set; }
+        private string _authorFirst {  get; set; }
         public int AudiobookId { get; set; }
         public string Title { get; set; }
         public string YearSeries { get; set; }
@@ -74,10 +78,42 @@ namespace FileRenamer.Model {
 
         public object[ ] valueArray {
             get {
-                return new object[ ] { AudiobookId, YearSeries, Number, Title, CreatedDate, (ReadDate != null) };
+                return new object[ ] { AudiobookId, YearSeries, Number, Title, CreatedDate, ( ReadDate != null ) };
             }
         }
 
+        public string Display {
+            get {
+                var display = string.Empty;
+                    if( this.Number > new Decimal( 0.0 ) ) {
+                        display = ((Decimal)this.Number).ToString( "00.#" );
+                        if( !string.IsNullOrEmpty( this.YearSeries ) ) {
+                            display = string.Format( "{0} {1}", this.YearSeries, display );
+                        }
+                    } else if( !string.IsNullOrEmpty( this.YearSeries ) ) {
+                        display = this.YearSeries;
+                        display = string.Format( "{0} - {1}", display, this.Title );
+                    }
+                    if( !string.IsNullOrEmpty( display ) ) {
+                        display = string.Format( "{0} - {1}", display, this.Title );
+                    }
+                if( string.IsNullOrEmpty( display ) ) {
+                    display = this.Title;
+                }
+                return display;
+            }
+        }
 
+        public string Authorname {
+            get {
+                return string.Format( "{0}{1}", string.IsNullOrEmpty( this._authorFirst ) ? "" : string.Format( "{0} ", this._authorLast ), this._authorLast );
+            }
+        }
+
+        public string AuthornameReversed {
+            get {
+                return string.Format( "{0}{1}", this._authorLast, string.IsNullOrEmpty( this._authorFirst ) ? "" : string.Format( ", {0}", this._authorFirst ) );
+            }
+        }
     }
 }

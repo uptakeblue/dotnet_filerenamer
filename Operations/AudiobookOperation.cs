@@ -1,4 +1,5 @@
 ﻿using FileRenamer.Model;
+using FileRenamer.Operations;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ using System.Windows.Forms;
 namespace FileRenamer.Operations {
     public static class AudiobookOperation {
 
+        private static string _connectionString = GeneralOperations.GetConnectionString();
+
         const string _module = "AudiobookOperation";
 
         /// <summary>
@@ -21,7 +24,7 @@ namespace FileRenamer.Operations {
         public static List<Audiobook> Audiobook_GetListByAuthor( int authorId ) {
             var audiobookList= new List<Audiobook>();
             var conn = new MySqlConnection( );
-            conn.ConnectionString = "server=localhost;uid=root;pwd=halibut;database=dbo;port=3306";
+            conn.ConnectionString = _connectionString;
 
             try {
 
@@ -36,7 +39,7 @@ namespace FileRenamer.Operations {
 
                 MySqlDataReader rdr = cmd.ExecuteReader( );
                 while( rdr.Read( ) ) {
-                    object[ ] datarow = { rdr[0], rdr[6], rdr[4], rdr[5], rdr[8], rdr[11] };
+                    object[ ] datarow = { rdr[0], rdr[1], rdr[2], rdr[3], rdr[4], rdr[5], rdr[6], rdr[8], rdr[11] };
                     var audiobook = new Audiobook( datarow );
                     audiobookList.Add( audiobook );
 
@@ -67,8 +70,14 @@ namespace FileRenamer.Operations {
             return audiobook;
         }
 
-        public static void Audiobook_Post(int authorId, string title, string yearSeries, decimal number ) {
+        public static Audiobook Audiobook_Post(int authorId, string title ) {
+            var audiobook = new Audiobook( );
+            return audiobook;
+        }
 
+        public static Audiobook Audiobook_Put( Audiobook audiobook ) {
+            var updatedAudiobook = new Audiobook( );
+            return updatedAudiobook;
         }
 
     }

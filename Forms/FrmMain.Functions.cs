@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FileRenamer.Forms {
-    public partial class FormMain : Form {
+    public partial class FrmMain : Form {
         private void refreshData( ) {
             _allAuthors = AuthorOperations.Author_GetList( );
             //_allAudiobooks = AudiobookOperations.Audiobook_GetList( );
@@ -81,48 +81,13 @@ namespace FileRenamer.Forms {
 
 
         private void populateAuthors( ) {
-            var authorsFiltered = _allAuthors.FindAll( x => x.AudiobookCount.Total > 0 );
-            if( chkUnread.Checked ) {
-                authorsFiltered = _allAuthors.FindAll( x => x.AudiobookCount.Unread > 0 );
-            }
-            if( chkCurrent.Checked ) {
-                authorsFiltered = _allAuthors.FindAll( x => x.AudiobookCount.Current > 0 );
-            }
-
             var authors = new List<KeyValuePair<int, string>>( );
             authors.Add( new KeyValuePair<int, string>( 0, "All Authors" ) );
-            foreach( var author in authorsFiltered ) {
+            foreach( var author in _allAuthors ) {
                 authors.Add( author.KeyValuePair );
             }
             cboAuthor.DataSource = authors;
 
-        }
-
-        private void populateAudiobooks( ) {
-            grdAudiobook.Rows.Clear( );
-
-            var filteredBooks = _allAudiobooks;
-            if( chkUnread.Checked )
-                filteredBooks = filteredBooks.FindAll( x => x.IsUnRead == true );
-            if( chkCurrent.Checked ) {
-                filteredBooks = filteredBooks.FindAll( x => x.IsCurrent == true );
-            } else {
-                filteredBooks =
-                ( cboAuthor.SelectedIndex == 0 ) || ( cboAuthor.SelectedItem == null )
-                ? filteredBooks
-                : filteredBooks.FindAll( x => x.Author.AuthorId == _author.AuthorId );
-            }
-
-            foreach( var audiobook in filteredBooks ) {
-                audiobook.IsUseExtendedTitle = cboSeries.Checked;
-            }
-
-            filteredBooks.Sort( );
-
-            foreach( var audiobook in filteredBooks ) {
-                grdAudiobook.Rows.Add( audiobook.valueArray );
-            }
-            lblRowcount.Text = string.Format( "{0} row{1}", filteredBooks.Count, filteredBooks.Count == 1 ? "" : "s" );
         }
 
         /// <summary>
@@ -135,42 +100,9 @@ namespace FileRenamer.Forms {
             var result = frmAudobook.ShowDialog( );
             if( result == DialogResult.OK ) {
                 refreshData( );
-                populateAudiobooks( );
             }
             frmAudobook = null;
         }
 
-        private void grdAudiobook_CellContentClick( object sender, DataGridViewCellEventArgs e ) {
-            if( ( e.ColumnIndex >= 4 ) && ( e.RowIndex < grdAudiobook.Rows.Count - 1 ) ) {
-                var audiobookId = (int)grdAudiobook.Rows[e.RowIndex].Cells[0].Value;
-                var audiobook = AudiobookOperations.Audiobook_Get( audiobookId );
-                var chk = (DataGridViewCheckBoxCell)grdAudiobook.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                if( e.ColumnIndex == 5 ) {
-                    // read / unread
-                    var isUnread = ( chk.Value.ToString( ) == (string)chk.TrueValue );
-                    if( isUnread != audiobook.IsUnRead ) {
-                        if( isUnread ) {
-                            audiobook.ReadDate = DateTime.MinValue;
-                        } else {
-                            audiobook.ReadDate = DateTime.Now;
-                        }
-                        AudiobookOperations.Audiobook_Update( audiobook );
-                        GeneralOperations.WriteToLogFile( string.Format( "Marked Audiobook \"{0}\" \"{1}\"", _audiobook.Title, ( isUnread ? "read" : "unread" ) ) );
-                        refreshData( );
-                    }
-                }
-                if( e.ColumnIndex == 4 ) {
-                    // current / not current
-                    var isCurrent = ( chk.Value.ToString( ) != (string)chk.TrueValue );
-                    if( isCurrent != audiobook.IsCurrent ) {
-                        audiobook.IsCurrent = isCurrent;
-                        AudiobookOperations.Audiobook_Update( audiobook );
-                        GeneralOperations.WriteToLogFile( string.Format( "Marked Audiobook \"{0}\" \"{1}\"", _audiobook.Title, ( isCurrent ? "current" : "not current" ) ) );
-                        refreshData( );
-                    }
-                }
-            }
-
-        }
     }
 }

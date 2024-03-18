@@ -1,15 +1,26 @@
 ﻿using FileRenamer.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using TagLib;
+
 
 namespace FileRenamer.Operations {
     public static class GeneralOperations {
+
+        public static string GetConnectionString( ) {
+            
+            string connectionStringName = ConfigurationManager.AppSettings["connectionstringName"];
+            var connStringSettings = ConfigurationManager.ConnectionStrings[connectionStringName];
+            var connectionString = connStringSettings.ConnectionString;
+            return connectionString;
+        }
 
         public static FolderpathInfo GetFolderpathInfo( string folderPath, List<Author> authors ) {
             var fpi = new FolderpathInfo( ) { FilePath = folderPath };
@@ -80,11 +91,11 @@ namespace FileRenamer.Operations {
                 file.Tag.Track = tagInfo.TrackNumber;
                 file.Tag.Genres = tagInfo.Genres;
                 file.Tag.Comment = string.Format(
-                    "{0} Application, Copyright {1} {2}{3} 2018 Michael Rubin, All rights reserved",
+                    "{0} Application, Copyright {2}{3} {1} Michael Rubin, All rights reserved",
                     System.Windows.Forms.Application.ProductName,
-                    ( (char)169 ).ToString( ),
                     yearString,
-                    firstYear );
+                    firstYear,
+                    ( (char)169 ).ToString( ));
                 file.Save( );
             } else {
                 throw new Exception( string.Format( "Filepath {0} does not exist", tagInfo.FilePath ) );
