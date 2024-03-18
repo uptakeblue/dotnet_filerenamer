@@ -47,11 +47,13 @@ namespace FileRenamer.Forms
             this.Location = l;
             this.Size = _settings.Size;
             spltFiles.SplitterDistance = _settings.SplitterDistance;
+            tabMain.SelectedTab = tabMain.TabPages[_settings.TabPageName];
 
             lblTitle.Parent = this;
             lblTitle.Location = new Point( ( this.Width - lblTitle.Width ) / 2, 4 );
             btnExit.Parent = this;
             btnExit.Location = new Point( this.Width - btnExit.Width - 5, 3 );
+            lblDbHost.Text = string.Format( "Database Host: {0}", ConfigurationManager.AppSettings["connectionstringName"].ToUpper());
 
             var authors = new List<KeyValuePair<int, string>>( );
             foreach( var author in _allAuthors ) {
@@ -64,6 +66,22 @@ namespace FileRenamer.Forms
             }
 
             this.CancelButton = btnExit;
+            DirectoryInfo di = new DirectoryInfo( _settings.Folder );
+            if( di.Exists ) {
+                folderBrowser.SelectedPath = _settings.Folder;
+                txtFolder.Text = _settings.Folder;
+
+                populateAudiobookControls( _settings.Folder );
+                populateSourceFileList( _settings.Folder );
+            }
+            if( tabMain.SelectedTab.Name == "tabData" ) {
+                cboAuthor.SelectedValue = _settings.AuthorId;
+            }
+            if( cboAuthor.SelectedIndex == -1 ) {
+                cboAuthor.SelectedIndex = 0;
+            }
+
+            lblConnection.Text = "Database Connection: " + ConfigurationManager.AppSettings["connectionstringName"];
 
         }
 
@@ -112,13 +130,17 @@ namespace FileRenamer.Forms
         }
 
         private void cboAuthor_SelectedIndexChanged( object sender, EventArgs e ) {
-            var authorId = (int)cboAuthor.SelectedValue;
-            var audiobooks = AudiobookOperation.Audiobook_GetListByAuthor( authorId );
-            var sortedAudiobooks = audiobooks.OrderBy( a => a.YearSeries).ThenBy(a=>a.Number).ThenBy(a=>a.Title).ToList();
             grdAudiobook.Rows.Clear( );
+            if( cboAuthor.SelectedIndex > 0 ) {
+                var authorId = (int)cboAuthor.SelectedValue;
+                var audiobooks = AudiobookOperation.Audiobook_GetListByAuthor( authorId );
+                _author = AuthorOperations.Author_Get(authorId);
 
-            foreach( var audiobook in sortedAudiobooks ) {
-                grdAudiobook.Rows.Add( audiobook.valueArray );
+                var sortedAudiobooks = audiobooks.OrderBy( a => a.YearSeries ).ThenBy( a => a.Number ).ThenBy( a => a.Title ).ToList( );
+
+                foreach( var audiobook in sortedAudiobooks ) {
+                    grdAudiobook.Rows.Add( audiobook.valueArray );
+                }
             }
 
         }
@@ -215,7 +237,7 @@ namespace FileRenamer.Forms
         }
 
         private void grdAudiobook_CellDoubleClick( object sender, DataGridViewCellEventArgs e ) {
-            if( ( e.RowIndex == -1 ) || ( e.RowIndex == grdAudiobook.Rows.Count - 1 ) )
+            if( e.RowIndex == -1 )
                 return;
             var audiobookId = (int)grdAudiobook.Rows[e.RowIndex].Cells[0].Value;
             var audiobook = AudiobookOperation.Audiobook_Get( audiobookId );
@@ -242,6 +264,25 @@ namespace FileRenamer.Forms
                 worker.ReportProgress( 1 );
             }
 
+        }
+
+        private void backgroundWorker1_ProgressChanged( object sender, ProgressChangedEventArgs e ) {
+            pgbRename.Maximum += 1;
+            pgbRename.Value += 2;
+            pgbRename.Value -= 1;
+            pgbRename.Maximum -= 1;
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e ) {
+            populateSourceFileList( txtFolder.Text );
+            refreshData( );
+            this.Cursor = Cursors.Default;
+            pgbRename.Visible = false;
+        }
+
+        private void llRefresh_LinkClicked( object sender, LinkLabelLinkClickedEventArgs e ) {
+            refreshData( );
+            cboAuthor.SelectedValue = _author.AuthorId;
         }
     }
 }

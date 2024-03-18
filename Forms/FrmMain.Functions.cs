@@ -18,9 +18,7 @@ namespace FileRenamer.Forms {
     public partial class FrmMain : Form {
         private void refreshData( ) {
             _allAuthors = AuthorOperations.Author_GetList( );
-            //_allAudiobooks = AudiobookOperations.Audiobook_GetList( );
-            _allAuthors = AuthorOperations.Author_GetList( );
-    }
+        }
 
         private void populateAudiobookControls( string folderPath ) {
             var folderpathInfo = GeneralOperations.GetFolderpathInfo( folderPath, _allAuthors );
@@ -99,7 +97,9 @@ namespace FileRenamer.Forms {
             frmAudobook.PopulateForm( audiobook );
             var result = frmAudobook.ShowDialog( );
             if( result == DialogResult.OK ) {
+                object sender = null;
                 refreshData( );
+                cboAuthor_SelectedIndexChanged( sender, new EventArgs( ) );
             }
             frmAudobook = null;
         }

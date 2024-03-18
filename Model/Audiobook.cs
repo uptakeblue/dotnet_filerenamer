@@ -92,7 +92,7 @@ namespace FileRenamer.Model {
         public DateTime? ReadDate { get; set; }
 
         public override string ToString( ) {
-            return string.Format( "AudiobookId: {0}\nAuthorId: {1}\nTitle: {2}\nYearSeries: {3}\nNumber: {4}", this.AudiobookId, this.AuthorId, this.Title, this.YearSeries, this.Number );
+            return string.Format( "AudiobookId: {0}, AuthorId: {1}, Title: {2}, YearSeries: {3}, Number: {4}", this.AudiobookId, this.AuthorId, this.Title, this.YearSeries, this.Number );
         }
 
         public object[ ] valueArray {

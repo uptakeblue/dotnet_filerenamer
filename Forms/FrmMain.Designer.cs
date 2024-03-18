@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.lstRenamedFiles = new System.Windows.Forms.ListBox();
             this.lblRenamedFiles = new System.Windows.Forms.Label();
             this.lstSourceFiles = new System.Windows.Forms.ListBox();
             this.lblSourceFiles = new System.Windows.Forms.Label();
             this.tabFiles = new System.Windows.Forms.TabPage();
+            this.btnExit = new System.Windows.Forms.Button();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pgbRename = new System.Windows.Forms.ProgressBar();
             this.lblAudiobook = new System.Windows.Forms.Label();
@@ -68,7 +69,7 @@
             this.is_read = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.ofDialog = new System.Windows.Forms.OpenFileDialog();
-            this.btnExit = new System.Windows.Forms.Button();
+            this.lblDbHost = new System.Windows.Forms.Label();
             this.tabFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spltFiles)).BeginInit();
             this.spltFiles.Panel1.SuspendLayout();
@@ -84,6 +85,8 @@
             this.backgroundWorker1.WorkerReportsProgress = true;
             this.backgroundWorker1.WorkerSupportsCancellation = true;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // lstRenamedFiles
             // 
@@ -153,6 +156,22 @@
             this.tabFiles.Size = new System.Drawing.Size(540, 571);
             this.tabFiles.TabIndex = 0;
             this.tabFiles.Text = "Files";
+            // 
+            // btnExit
+            // 
+            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(119)))), ((int)(((byte)(99)))));
+            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnExit.FlatAppearance.BorderSize = 0;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btnExit.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.Image")));
+            this.btnExit.Location = new System.Drawing.Point(505, 5);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(24, 19);
+            this.btnExit.TabIndex = 106;
+            this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // lblTitle
             // 
@@ -368,6 +387,7 @@
             // tabData
             // 
             this.tabData.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tabData.Controls.Add(this.lblDbHost);
             this.tabData.Controls.Add(this.lblRowcount);
             this.tabData.Controls.Add(this.lblConnection);
             this.tabData.Controls.Add(this.llRefresh);
@@ -419,12 +439,16 @@
             this.llRefresh.TabIndex = 3;
             this.llRefresh.TabStop = true;
             this.llRefresh.Text = "data refresh";
+            this.llRefresh.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llRefresh_LinkClicked);
             // 
             // grdAudiobook
             // 
             this.grdAudiobook.AllowUserToAddRows = false;
             this.grdAudiobook.AllowUserToDeleteRows = false;
             this.grdAudiobook.AllowUserToResizeRows = false;
+            this.grdAudiobook.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grdAudiobook.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdAudiobook.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.audiobookId,
@@ -433,14 +457,14 @@
             this.title,
             this.date,
             this.is_read});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle6;
             this.grdAudiobook.Location = new System.Drawing.Point(8, 87);
             this.grdAudiobook.MultiSelect = false;
             this.grdAudiobook.Name = "grdAudiobook";
@@ -449,7 +473,7 @@
             this.grdAudiobook.RowHeadersWidth = 28;
             this.grdAudiobook.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.SteelBlue;
             this.grdAudiobook.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdAudiobook.Size = new System.Drawing.Size(529, 462);
+            this.grdAudiobook.Size = new System.Drawing.Size(529, 453);
             this.grdAudiobook.TabIndex = 2;
             this.grdAudiobook.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdAudiobook_CellDoubleClick);
             // 
@@ -490,10 +514,10 @@
             // 
             // date
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "d";
-            dataGridViewCellStyle3.NullValue = null;
-            this.date.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "d";
+            dataGridViewCellStyle5.NullValue = null;
+            this.date.DefaultCellStyle = dataGridViewCellStyle5;
             this.date.HeaderText = "Date";
             this.date.MinimumWidth = 15;
             this.date.Name = "date";
@@ -517,27 +541,23 @@
             // 
             this.ofDialog.FileName = "openFileDialog1";
             // 
-            // btnExit
+            // lblDbHost
             // 
-            this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(119)))), ((int)(((byte)(99)))));
-            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnExit.FlatAppearance.BorderSize = 0;
-            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnExit.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.Image")));
-            this.btnExit.Location = new System.Drawing.Point(505, 5);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(24, 19);
-            this.btnExit.TabIndex = 106;
-            this.btnExit.UseVisualStyleBackColor = false;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            this.lblDbHost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblDbHost.AutoSize = true;
+            this.lblDbHost.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblDbHost.Location = new System.Drawing.Point(9, 550);
+            this.lblDbHost.Name = "lblDbHost";
+            this.lblDbHost.Size = new System.Drawing.Size(53, 13);
+            this.lblDbHost.TabIndex = 105;
+            this.lblDbHost.Text = "lblDbHost";
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(124)))), ((int)(((byte)(119)))), ((int)(((byte)(99)))));
+            this.BackColor = System.Drawing.Color.Green;
+            this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(548, 603);
             this.Controls.Add(this.tabMain);
             this.ForeColor = System.Drawing.SystemColors.InactiveCaption;
@@ -606,6 +626,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn title;
         private System.Windows.Forms.DataGridViewTextBoxColumn date;
         private System.Windows.Forms.DataGridViewCheckBoxColumn is_read;
+        private System.Windows.Forms.Label lblDbHost;
     }
 }
 

@@ -14,8 +14,9 @@ using TagLib;
 namespace FileRenamer.Operations {
     public static class GeneralOperations {
 
+        const string _module = "GeneralOperations";
+
         public static string GetConnectionString( ) {
-            
             string connectionStringName = ConfigurationManager.AppSettings["connectionstringName"];
             var connStringSettings = ConfigurationManager.ConnectionStrings[connectionStringName];
             var connectionString = connStringSettings.ConnectionString;
@@ -29,47 +30,58 @@ namespace FileRenamer.Operations {
                 1 is "Books"
                 n-1 is "10 Minute Slices"
             */
-            var first = string.Empty;
-            var last = string.Empty;
-            var fields = folderPath.Split( '\\' );
-            var i = fields.Length;
-            switch( fields.Length ) {
-                case 5:
-                case 8:
-                    //field 3/7 is the author first and last delimited by ", "
-                    //field 4/8 is the title
-                    i = i - 3;
-                    first = fields[i].Split( ',' )[1].Trim( );
-                    last = fields[i].Split( ',' )[0].Trim( );
-                    fpi.Author = authors.Find( x => x.Last == last && x.First == first );
-                    if( fpi.Author == null ) {
-                        fpi.Author = new Author( ) { First = first, Last = last };
-                    }
-                    if( fields[3].Contains( "=" ) ) {
-                        fpi.Audiobook.Title = fields[i + 1].Split( '-' )[1].Trim( );
-                    } else {
-                        fpi.Audiobook.Title = fields[i + 1];
-                    }
-                    break;
-                case 4:
-                case 7:
-                    //field 3/7 is author and title delimited by " - "
-                    i = i - 2;
-                    var author = fields[i].Split( '-' )[0].Trim( );
-                    first = author.Split( ',' )[1].Trim( );
-                    last = author.Split( ',' )[0].Trim( );
-                    fpi.Author = authors.Find( x => x.Last == last && x.First == first );
-                    if( fpi.Author == null ) {
-                        fpi.Author = new Author( ) { First = first, Last = last };
-                    }
-                    fpi.Audiobook.Title = fields[i].Split( '-' )[1].Trim( );
-                    break;
+            try {
+                var first = string.Empty;
+                var last = string.Empty;
+                var fields = folderPath.Split( '\\' );
+                var i = fields.Length;
+                var audiobookTitle = string.Empty;
+                switch( fields.Length ) {
+                    case 5:
+                    case 8:
+                        //field 3/7 is the author first and last delimited by ", "
+                        //field 4/8 is the title
+                        i = i - 3;
+                        first = fields[i].Split( ',' )[1].Trim( );
+                        last = fields[i].Split( ',' )[0].Trim( );
+                        fpi.Author = authors.Find( x => x.Last == last && x.First == first );
+                        if( fpi.Author == null ) {
+                            fpi.Author = new Author( ) { First = first, Last = last };
+                        }
+                        if( fields[3].Contains( "-" ) ) {
+                            audiobookTitle = fields[i + 1].Split( '-' )[1].Trim( );
+                        } else {
+                            audiobookTitle = fields[i + 1];
+                        }
+                        break;
+                    case 4:
+                    case 7:
+                        //field 3/7 is author and title delimited by " - "
+                        i = i - 2;
+                        var author = fields[i].Split( '-' )[0].Trim( );
+                        first = author.Split( ',' )[1].Trim( );
+                        last = author.Split( ',' )[0].Trim( );
+                        fpi.Author = authors.Find( x => x.Last == last && x.First == first );
+                        if( fpi.Author == null ) {
+                            fpi.Author = new Author( ) { First = first, Last = last };
+                        }
+                        audiobookTitle = fields[i].Split( '-' )[1].Trim( );
+                        break;
+                }
+                if( fpi.Author.AuthorId > 0 ) {
+                    fpi.Author = AuthorOperations.Author_Get( fpi.Author.AuthorId );
+                }
+                if( fpi.Author.AuthorId > 0 ) {
+                    var authorAudiobooks = AudiobookOperation.Audiobook_GetListByAuthor( fpi.Author.AuthorId );
+                    fpi.Audiobook = authorAudiobooks.Find( x => x.Title == audiobookTitle );
+                }
             }
-            var a = AuthorOperations.Author_Get( fpi.Author.AuthorId );
-            if( a.AuthorId > 0 ) {
-                fpi.Author = a;
+            catch( Exception ex ) {
+                var caption = string.Format( "{0}.GetFolderpathInfo( folderPath, authors )", _module );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                MessageBox.Show( ex.Message, caption );
+
             }
-            fpi.Audiobook = AudiobookOperation.Audiobook_Get( fpi.Audiobook.AudiobookId );
             return fpi;
         }
 
@@ -102,15 +114,12 @@ namespace FileRenamer.Operations {
             }
         }
 
-        public static bool EditsPerformed = false;
-
         //logging
         public static void WriteToLogFile( string message ) {
             var logFilePath = string.Format( "{0}\\{1}", new DirectoryInfo( Path.GetDirectoryName( Application.ExecutablePath ) ).Parent.Parent.FullName, "logfile.txt" );
             using( StreamWriter w = System.IO.File.AppendText( logFilePath ) ) {
                 w.WriteLine( string.Format( "{0}: {1}", DateTime.Now.ToString( "yyyyMMddHHmmss" ), message ) );
             }
-            EditsPerformed = true;
         }
 
 

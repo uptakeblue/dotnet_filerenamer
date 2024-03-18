@@ -42,14 +42,6 @@ namespace FileRenamer.Forms {
                     _audiobook.Number = num;
                 }
             }
-            _audiobook.CreatedDate = dtpCreatedDate.Value;
-            _audiobook.AudiobookId = (int)cboAuthor.SelectedValue;
-
-            if( dtpReadDate.Visible ) {
-                _audiobook.ReadDate = dtpReadDate.Value;
-            } else {
-                _audiobook.ReadDate = null;
-            }
             AudiobookOperation.Audiobook_Put( _audiobook );
             this.DialogResult = DialogResult.OK;
             this.Close( );
@@ -59,22 +51,18 @@ namespace FileRenamer.Forms {
         // functions
         public void PopulateForm( Audiobook audiobook ) {
             _audiobook = audiobook;
-            cboAuthor.DataSource = AuthorOperations.Author_GetListKVP( );
-            cboAuthor.SelectedValue = audiobook.AuthorId;
+            txtAuthor.Text = audiobook.AuthornameReversed;
             txtTitle.Text = audiobook.Title;
             txtYearSeries.Text = audiobook.YearSeries;
             if( audiobook.Number > 0 ) {
                 txtNumber.Text = ( (Decimal)audiobook.Number).ToString( "0.#" );
             }
-            dtpCreatedDate.Value = audiobook.CreatedDate;
-
-            if( audiobook.ReadDate != null && ( (DateTime)audiobook.ReadDate ).CompareTo( DateTime.MinValue ) > 0 ) {
-                dtpReadDate.Value = (DateTime)audiobook.ReadDate;
-                dtpReadDate.Visible = true;
-            } else {
-                dtpReadDate.Visible = false;
+            txtCreated.Text = audiobook.CreatedDate.ToString( "D" );
+            if( audiobook.ReadDate != null ) {
+                txtRead.Text = ( (DateTime)audiobook.ReadDate ).ToString( "D" );
+                lblReadDate.Visible = true;
+                txtRead.Visible = true;
             }
-            lblReadDate.Visible = dtpReadDate.Visible;
 
         }
 

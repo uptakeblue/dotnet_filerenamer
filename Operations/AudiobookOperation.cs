@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace FileRenamer.Operations {
     public static class AudiobookOperation {
 
-        private static string _connectionString = GeneralOperations.GetConnectionString();
+        private static string _connectionString = GeneralOperations.GetConnectionString( );
 
         const string _module = "AudiobookOperation";
 
@@ -22,7 +22,7 @@ namespace FileRenamer.Operations {
         /// <param name="authorId"></param>
         /// <returns></returns>
         public static List<Audiobook> Audiobook_GetListByAuthor( int authorId ) {
-            var audiobookList= new List<Audiobook>();
+            var audiobookList = new List<Audiobook>( );
             var conn = new MySqlConnection( );
             conn.ConnectionString = _connectionString;
 
@@ -46,15 +46,17 @@ namespace FileRenamer.Operations {
 
                 }
             }
-            catch (Exception e) {
-                MessageBox.Show( e.Message, string.Format( "{0}.Audiobook_GetListByAuthor( authorId )", _module) );
+            catch( Exception ex ) {
+                var caption = string.Format( "{0}.Audiobook_GetListByAuthor( authorId )", _module );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                MessageBox.Show( ex.Message, caption );
             }
             return audiobookList;
         }
 
 
         public static Audiobook Audiobook_Get( int audiobookId ) {
-            var audiobook = new Audiobook();
+            var audiobook = new Audiobook( );
             var conn = new MySqlConnection( );
             conn.ConnectionString = _connectionString;
 
@@ -74,13 +76,15 @@ namespace FileRenamer.Operations {
                     audiobook = new Audiobook( datarow );
                 }
             }
-            catch( Exception e ) {
-                MessageBox.Show( e.Message, string.Format( "{0}.Audiobook_Get(audiobookId)", _module));
+            catch( Exception ex ) {
+                var caption = string.Format( "{0}.Audiobook_Get( audiobookId )", _module );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                MessageBox.Show( ex.Message, caption );
             }
             return audiobook;
         }
 
-        public static Audiobook Audiobook_Post(int authorId, string title ) {
+        public static Audiobook Audiobook_Post( int authorId, string title ) {
             Audiobook audiobook = null;
             var conn = new MySqlConnection( );
             conn.ConnectionString = _connectionString;
@@ -108,8 +112,10 @@ namespace FileRenamer.Operations {
                 audiobook = Audiobook_Get( audiobookId );
 
             }
-            catch( Exception e ) {
-                MessageBox.Show( e.Message, string.Format( "{0}.Audiobook_Get(audiobookId)", _module ) );
+            catch( Exception ex ) {
+                var caption = string.Format( "{0}.Audiobook_Get( audiobookId )", _module );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                MessageBox.Show( ex.Message, caption );
             }
             return audiobook;
         }
@@ -132,12 +138,13 @@ namespace FileRenamer.Operations {
                 cmd.Parameters.AddWithValue( "@title", audiobook.Title );
 
                 cmd.ExecuteNonQuery( );
-                
+
             }
-            catch( Exception e ) {
-                MessageBox.Show( e.Message, string.Format( "{0}.Audiobook_Get(audiobookId)", _module ) );
+            catch( Exception ex ) {
+                var caption = string.Format( "{0}.Audiobook_Put( audiobook )", _module );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                MessageBox.Show( ex.Message, caption );
             }
-            
 
         }
 

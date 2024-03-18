@@ -45,7 +45,7 @@ namespace FileRenamer.Model {
             }
         }
         public override string ToString( ) {
-            return string.Format( "AuthorId: {0}\nLast: {1}\nFirst: {2}", this.AuthorId, this.Last, this.First );
+            return string.Format( "AuthorId: {0}, Last: {1}, First: {2}", this.AuthorId, this.Last, this.First );
         }
 
     }

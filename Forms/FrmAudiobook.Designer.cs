@@ -29,28 +29,28 @@
             this.txtYearSeries = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOkay = new System.Windows.Forms.Button();
-            this.dtpReadDate = new System.Windows.Forms.DateTimePicker();
             this.lblReadDate = new System.Windows.Forms.Label();
             this.lblCreatedDate = new System.Windows.Forms.Label();
-            this.dtpCreatedDate = new System.Windows.Forms.DateTimePicker();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
-            this.cboAuthor = new System.Windows.Forms.ComboBox();
             this.Author = new System.Windows.Forms.Label();
+            this.txtCreated = new System.Windows.Forms.TextBox();
+            this.txtRead = new System.Windows.Forms.TextBox();
+            this.txtAuthor = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtNumber
             // 
-            this.txtNumber.Location = new System.Drawing.Point(153, 96);
+            this.txtNumber.Location = new System.Drawing.Point(144, 96);
             this.txtNumber.Name = "txtNumber";
-            this.txtNumber.Size = new System.Drawing.Size(78, 20);
+            this.txtNumber.Size = new System.Drawing.Size(53, 20);
             this.txtNumber.TabIndex = 21;
             // 
             // lblNumber
             // 
             this.lblNumber.AutoSize = true;
             this.lblNumber.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblNumber.Location = new System.Drawing.Point(150, 77);
+            this.lblNumber.Location = new System.Drawing.Point(141, 77);
             this.lblNumber.Name = "lblNumber";
             this.lblNumber.Size = new System.Drawing.Size(47, 13);
             this.lblNumber.TabIndex = 20;
@@ -94,15 +94,6 @@
             this.btnOkay.UseVisualStyleBackColor = true;
             this.btnOkay.Click += new System.EventHandler(this.btnOkay_Click);
             // 
-            // dtpReadDate
-            // 
-            this.dtpReadDate.CustomFormat = " dddd, MMMM dd, yyyy";
-            this.dtpReadDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpReadDate.Location = new System.Drawing.Point(21, 259);
-            this.dtpReadDate.Name = "dtpReadDate";
-            this.dtpReadDate.Size = new System.Drawing.Size(200, 20);
-            this.dtpReadDate.TabIndex = 28;
-            // 
             // lblReadDate
             // 
             this.lblReadDate.AutoSize = true;
@@ -111,6 +102,7 @@
             this.lblReadDate.Size = new System.Drawing.Size(36, 13);
             this.lblReadDate.TabIndex = 27;
             this.lblReadDate.Text = "Read:";
+            this.lblReadDate.Visible = false;
             // 
             // lblCreatedDate
             // 
@@ -120,15 +112,6 @@
             this.lblCreatedDate.Size = new System.Drawing.Size(47, 13);
             this.lblCreatedDate.TabIndex = 24;
             this.lblCreatedDate.Text = "Created:";
-            // 
-            // dtpCreatedDate
-            // 
-            this.dtpCreatedDate.CustomFormat = "dddd, MMMM dd, yyyy";
-            this.dtpCreatedDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpCreatedDate.Location = new System.Drawing.Point(21, 206);
-            this.dtpCreatedDate.Name = "dtpCreatedDate";
-            this.dtpCreatedDate.Size = new System.Drawing.Size(200, 20);
-            this.dtpCreatedDate.TabIndex = 25;
             // 
             // lblTitle
             // 
@@ -147,25 +130,48 @@
             this.txtTitle.Size = new System.Drawing.Size(360, 20);
             this.txtTitle.TabIndex = 23;
             // 
-            // cboAuthor
-            // 
-            this.cboAuthor.DisplayMember = "Value";
-            this.cboAuthor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboAuthor.FormattingEnabled = true;
-            this.cboAuthor.Location = new System.Drawing.Point(21, 36);
-            this.cboAuthor.Name = "cboAuthor";
-            this.cboAuthor.Size = new System.Drawing.Size(210, 21);
-            this.cboAuthor.TabIndex = 17;
-            this.cboAuthor.ValueMember = "Key";
-            // 
             // Author
             // 
             this.Author.AutoSize = true;
             this.Author.Location = new System.Drawing.Point(18, 20);
             this.Author.Name = "Author";
-            this.Author.Size = new System.Drawing.Size(48, 13);
+            this.Author.Size = new System.Drawing.Size(38, 13);
             this.Author.TabIndex = 16;
-            this.Author.Text = "lblAuthor";
+            this.Author.Text = "Author";
+            // 
+            // txtCreated
+            // 
+            this.txtCreated.BackColor = System.Drawing.SystemColors.Window;
+            this.txtCreated.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCreated.Enabled = false;
+            this.txtCreated.Location = new System.Drawing.Point(21, 208);
+            this.txtCreated.Name = "txtCreated";
+            this.txtCreated.ReadOnly = true;
+            this.txtCreated.Size = new System.Drawing.Size(176, 20);
+            this.txtCreated.TabIndex = 31;
+            // 
+            // txtRead
+            // 
+            this.txtRead.BackColor = System.Drawing.SystemColors.Window;
+            this.txtRead.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtRead.Enabled = false;
+            this.txtRead.Location = new System.Drawing.Point(21, 259);
+            this.txtRead.Name = "txtRead";
+            this.txtRead.ReadOnly = true;
+            this.txtRead.Size = new System.Drawing.Size(176, 20);
+            this.txtRead.TabIndex = 32;
+            this.txtRead.Visible = false;
+            // 
+            // txtAuthor
+            // 
+            this.txtAuthor.BackColor = System.Drawing.SystemColors.Window;
+            this.txtAuthor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtAuthor.Enabled = false;
+            this.txtAuthor.Location = new System.Drawing.Point(21, 36);
+            this.txtAuthor.Name = "txtAuthor";
+            this.txtAuthor.ReadOnly = true;
+            this.txtAuthor.Size = new System.Drawing.Size(176, 20);
+            this.txtAuthor.TabIndex = 33;
             // 
             // FrmAudiobook
             // 
@@ -174,19 +180,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(401, 348);
+            this.Controls.Add(this.txtAuthor);
+            this.Controls.Add(this.txtRead);
+            this.Controls.Add(this.txtCreated);
             this.Controls.Add(this.txtNumber);
             this.Controls.Add(this.lblNumber);
             this.Controls.Add(this.lblYearSeries);
             this.Controls.Add(this.txtYearSeries);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOkay);
-            this.Controls.Add(this.dtpReadDate);
             this.Controls.Add(this.lblReadDate);
             this.Controls.Add(this.lblCreatedDate);
-            this.Controls.Add(this.dtpCreatedDate);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.txtTitle);
-            this.Controls.Add(this.cboAuthor);
             this.Controls.Add(this.Author);
             this.Name = "FrmAudiobook";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -205,13 +211,13 @@
         private System.Windows.Forms.TextBox txtYearSeries;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOkay;
-        private System.Windows.Forms.DateTimePicker dtpReadDate;
         private System.Windows.Forms.Label lblReadDate;
         private System.Windows.Forms.Label lblCreatedDate;
-        private System.Windows.Forms.DateTimePicker dtpCreatedDate;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.TextBox txtTitle;
-        private System.Windows.Forms.ComboBox cboAuthor;
         private System.Windows.Forms.Label Author;
+        private System.Windows.Forms.TextBox txtCreated;
+        private System.Windows.Forms.TextBox txtRead;
+        private System.Windows.Forms.TextBox txtAuthor;
     }
 }
