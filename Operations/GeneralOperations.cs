@@ -74,6 +74,12 @@ namespace FileRenamer.Operations {
                 if( fpi.Author.AuthorId > 0 ) {
                     var authorAudiobooks = AudiobookOperation.Audiobook_GetListByAuthor( fpi.Author.AuthorId );
                     fpi.Audiobook = authorAudiobooks.Find( x => x.Title == audiobookTitle );
+                    if( fpi.Audiobook == null ) {
+                        fpi.Audiobook = new Audiobook( ) {
+                            Title = audiobookTitle,
+                            AuthorId = fpi.Author.AuthorId
+                        };
+                    }
                 }
             }
             catch( Exception ex ) {

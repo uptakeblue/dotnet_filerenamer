@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.lstRenamedFiles = new System.Windows.Forms.ListBox();
             this.lblRenamedFiles = new System.Windows.Forms.Label();
@@ -57,6 +57,7 @@
             this.cboAuthor = new System.Windows.Forms.ComboBox();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabData = new System.Windows.Forms.TabPage();
+            this.lblDbHost = new System.Windows.Forms.Label();
             this.lblRowcount = new System.Windows.Forms.Label();
             this.lblConnection = new System.Windows.Forms.Label();
             this.llRefresh = new System.Windows.Forms.LinkLabel();
@@ -69,7 +70,6 @@
             this.is_read = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.ofDialog = new System.Windows.Forms.OpenFileDialog();
-            this.lblDbHost = new System.Windows.Forms.Label();
             this.tabFiles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spltFiles)).BeginInit();
             this.spltFiles.Panel1.SuspendLayout();
@@ -215,7 +215,6 @@
             this.txtAuthor.ReadOnly = true;
             this.txtAuthor.Size = new System.Drawing.Size(178, 20);
             this.txtAuthor.TabIndex = 114;
-            this.txtAuthor.DoubleClick += new System.EventHandler(this.txtAuthor_DoubleClick);
             // 
             // txtAudiobook
             // 
@@ -401,6 +400,17 @@
             this.tabData.TabIndex = 1;
             this.tabData.Text = "Data";
             // 
+            // lblDbHost
+            // 
+            this.lblDbHost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblDbHost.AutoSize = true;
+            this.lblDbHost.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lblDbHost.Location = new System.Drawing.Point(9, 550);
+            this.lblDbHost.Name = "lblDbHost";
+            this.lblDbHost.Size = new System.Drawing.Size(53, 13);
+            this.lblDbHost.TabIndex = 105;
+            this.lblDbHost.Text = "lblDbHost";
+            // 
             // lblRowcount
             // 
             this.lblRowcount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -457,14 +467,14 @@
             this.title,
             this.date,
             this.is_read});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grdAudiobook.DefaultCellStyle = dataGridViewCellStyle2;
             this.grdAudiobook.Location = new System.Drawing.Point(8, 87);
             this.grdAudiobook.MultiSelect = false;
             this.grdAudiobook.Name = "grdAudiobook";
@@ -514,10 +524,10 @@
             // 
             // date
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle5.Format = "d";
-            dataGridViewCellStyle5.NullValue = null;
-            this.date.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle1.Format = "d";
+            dataGridViewCellStyle1.NullValue = null;
+            this.date.DefaultCellStyle = dataGridViewCellStyle1;
             this.date.HeaderText = "Date";
             this.date.MinimumWidth = 15;
             this.date.Name = "date";
@@ -540,17 +550,6 @@
             // ofDialog
             // 
             this.ofDialog.FileName = "openFileDialog1";
-            // 
-            // lblDbHost
-            // 
-            this.lblDbHost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblDbHost.AutoSize = true;
-            this.lblDbHost.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.lblDbHost.Location = new System.Drawing.Point(9, 550);
-            this.lblDbHost.Name = "lblDbHost";
-            this.lblDbHost.Size = new System.Drawing.Size(53, 13);
-            this.lblDbHost.TabIndex = 105;
-            this.lblDbHost.Text = "lblDbHost";
             // 
             // FrmMain
             // 

@@ -104,12 +104,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\FrmAuthorSelect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FrmAuthorSelect.Designer.cs">
-      <DependentUpon>FrmAuthorSelect.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FrmMain.Functions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,9 +137,6 @@
     </Compile>
     <EmbeddedResource Include="Forms\FrmAudiobook.resx">
       <DependentUpon>FrmAudiobook.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FrmAuthorSelect.resx">
-      <DependentUpon>FrmAuthorSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>

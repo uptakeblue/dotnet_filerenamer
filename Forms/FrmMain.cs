@@ -164,22 +164,6 @@ namespace FileRenamer.Forms
             }
         }
 
-        /// <summary>
-        /// Open FrmAuthorSelect dialog
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void txtAuthor_DoubleClick( object sender, EventArgs e ) {
-            var frmAuthorSelect = new FrmAuthorSelect( );
-            frmAuthorSelect.PopulateAuthors( _author.AuthorId );
-            if( frmAuthorSelect.ShowDialog( ) == DialogResult.OK ) {
-                _author = frmAuthorSelect.Author;
-                txtAuthor.Text = _author.Name;
-                cboAuthor.SelectedValue = _author.AuthorId;
-            }
-            frmAuthorSelect = null;
-        }
-
         private void btnGenerateName_Click( object sender, EventArgs e ) {
             generateFileNames( );
         }
