@@ -43,7 +43,8 @@ namespace FileRenamer.Forms {
                 }
             }
             _audiobook.CreatedDate = dtpCreatedDate.Value;
-            //_audiobook.Author = new Author( ) { AuthorId = (int)cboAuthor.SelectedValue };
+            _audiobook.AudiobookId = (int)cboAuthor.SelectedValue;
+
             if( dtpReadDate.Visible ) {
                 _audiobook.ReadDate = dtpReadDate.Value;
             } else {

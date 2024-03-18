@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FileRenamer.Model {
+
     public class Author {
+
+        static string _module = "Model.Author";
         public Author( ) {
             this.AuthorId = -1;
         }
         public Author( object[] dataRow ) {
-            this.AuthorId = (int)dataRow[0];
-            this.Last = (string)dataRow[1];
-            this.First = (string)dataRow[2];
+            try {
+                this.AuthorId = (int)dataRow[0];
+                this.Last = (string)dataRow[1];
+                this.First = (string)dataRow[2];
+            }
+            catch( Exception ex ) {
+                MessageBox.Show( ex.Message, string.Format( "Error in {0}.Constructor(dataRow)", _module ) );
+            }
         }
 
         public int AuthorId { get; set; }

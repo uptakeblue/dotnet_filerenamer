@@ -169,8 +169,10 @@
             // 
             // FrmAudiobook
             // 
+            this.AcceptButton = this.btnOkay;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(401, 348);
             this.Controls.Add(this.txtNumber);
             this.Controls.Add(this.lblNumber);
@@ -187,6 +189,7 @@
             this.Controls.Add(this.cboAuthor);
             this.Controls.Add(this.Author);
             this.Name = "FrmAudiobook";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FrmAudiobook";
             this.Load += new System.EventHandler(this.FrmAudiobook_Load);
             this.ResumeLayout(false);
