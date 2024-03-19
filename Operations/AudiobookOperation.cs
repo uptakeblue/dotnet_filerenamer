@@ -49,7 +49,7 @@ namespace FileRenamer.Operations {
             catch( Exception ex ) {
                 var caption = string.Format( "{0}.Audiobook_GetListByAuthor( authorId )", _module );
                 GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
-                MessageBox.Show( ex.Message, caption );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
             return audiobookList;
         }
@@ -79,7 +79,7 @@ namespace FileRenamer.Operations {
             catch( Exception ex ) {
                 var caption = string.Format( "{0}.Audiobook_Get( audiobookId )", _module );
                 GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
-                MessageBox.Show( ex.Message, caption );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
             return audiobook;
         }
@@ -115,7 +115,7 @@ namespace FileRenamer.Operations {
             catch( Exception ex ) {
                 var caption = string.Format( "{0}.Audiobook_Get( audiobookId )", _module );
                 GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
-                MessageBox.Show( ex.Message, caption );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
             return audiobook;
         }
@@ -143,7 +143,7 @@ namespace FileRenamer.Operations {
             catch( Exception ex ) {
                 var caption = string.Format( "{0}.Audiobook_Put( audiobook )", _module );
                 GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
-                MessageBox.Show( ex.Message, caption );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
 
         }

@@ -94,5 +94,17 @@ namespace FileRenamer {
                 this["TabPageName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100, 100")]
+        public global::System.Drawing.Point MessageDialogLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["MessageDialogLocation"]));
+            }
+            set {
+                this["MessageDialogLocation"] = value;
+            }
+        }
     }
 }

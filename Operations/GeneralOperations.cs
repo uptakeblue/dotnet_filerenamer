@@ -9,6 +9,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using TagLib;
+using FileRenamer.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 
 namespace FileRenamer.Operations {
@@ -85,8 +87,7 @@ namespace FileRenamer.Operations {
             catch( Exception ex ) {
                 var caption = string.Format( "{0}.GetFolderpathInfo( folderPath, authors )", _module );
                 GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
-                MessageBox.Show( ex.Message, caption );
-
+                ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
             return fpi;
         }
@@ -128,6 +129,12 @@ namespace FileRenamer.Operations {
             }
         }
 
+        // message dialog
+        public static void ShowMessageDialog(string caption, string title, string detail ) {
+            var frmMessage = new FrmMessage( caption, title, detail );
+            frmMessage.ShowDialog( );
+
+        }
 
     }
 }

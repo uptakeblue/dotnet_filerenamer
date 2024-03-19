@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileRenamer.Operations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,9 @@ namespace FileRenamer.Model {
                 this.First = (string)dataRow[2];
             }
             catch( Exception ex ) {
-                MessageBox.Show( ex.Message, string.Format( "Error in {0}.Constructor(dataRow)", _module ) );
+                var caption = string.Format( "{0}.Constructor( dataRow )", _module );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
         }
 

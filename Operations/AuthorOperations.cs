@@ -40,10 +40,10 @@ namespace FileRenamer
                     authorList.Add( author );
                 }
             }
-            catch( Exception e ) {
+            catch( Exception ex ) {
                 var caption = string.Format( "{0}.Author_GetList( )", _module );
-                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, e.Message ) );
-                MessageBox.Show( e.Message, caption );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
             return authorList;
         }
@@ -59,10 +59,10 @@ namespace FileRenamer
                     }
                 }
             }
-            catch( Exception e ) {
+            catch( Exception ex ) {
                 var caption = string.Format( "{0}.Author_GetListKVP( )", _module );
-                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, e.Message ) );
-                MessageBox.Show( e.Message, caption );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
             return list;
         }
@@ -89,10 +89,10 @@ namespace FileRenamer
                     author = new Author( datarow );
                 }
             }
-            catch( Exception e ) {
+            catch( Exception ex ) {
                 var caption = string.Format( "{0}.Author_Get( authorId )", _module );
-                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, e.Message ) );
-                MessageBox.Show( e.Message, caption );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
             return author;
         }
@@ -118,10 +118,10 @@ namespace FileRenamer
                     author = new Author( datarow );
                 }
             }
-            catch( Exception e ) {
+            catch( Exception ex ) {
                 var caption = string.Format( "{0}.Author_Get( last, first )", _module );
-                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, e.Message ) );
-                MessageBox.Show( e.Message, caption );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
             return author;
         }
@@ -152,10 +152,10 @@ namespace FileRenamer
                 author = Author_Get( authorId );
 
             }
-            catch( Exception e ) {
+            catch( Exception ex ) {
                 var caption = string.Format( "{0}.Audiobook_Get( audiobookId )", _module );
-                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, e.Message ) );
-                MessageBox.Show( e.Message, caption );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
             return author;
         }

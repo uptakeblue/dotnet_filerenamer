@@ -10,9 +10,11 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace FileRenamer.Forms
 {
@@ -29,6 +31,8 @@ namespace FileRenamer.Forms
 
         //private List<Audiobook> _audiobooks;
         private List<Author> _allAuthors = AuthorOperations.Author_GetList();
+
+        const string _module = "FrmMain";
 
         public FrmMain()
         {
@@ -66,6 +70,7 @@ namespace FileRenamer.Forms
             }
 
             this.CancelButton = btnExit;
+
             DirectoryInfo di = new DirectoryInfo( _settings.Folder );
             if( di.Exists ) {
                 folderBrowser.SelectedPath = _settings.Folder;
@@ -82,7 +87,6 @@ namespace FileRenamer.Forms
             }
 
             lblConnection.Text = "Database Connection: " + ConfigurationManager.AppSettings["connectionstringName"];
-
         }
 
         private void btnExit_Click( object sender, EventArgs e ) {
@@ -184,9 +188,14 @@ namespace FileRenamer.Forms
                         throw new Exception( "Source folder must be named \"10 Minute Slices\"." );
                     }
                     // create author if it doesn't exist
-                    if( ( _author.AuthorId <= 0 ) && ( MessageBox.Show( this, "The author does not exist.  Create new author?", "Author", MessageBoxButtons.YesNoCancel ) == DialogResult.Yes ) ) {
+                    if( _author.AuthorId <= 0 ) {
+
+                        var caption = string.Format( "{0}.btnRename_Click( )", _module );
+                        GeneralOperations.WriteToLogFile( string.Format( "Message in: {0}", caption ) );
+                        GeneralOperations.ShowMessageDialog( "The author does not exist", caption, string.Format( "A new author \"{0}\"  will be created", _author.Name ) );
+
                         _author = AuthorOperations.Author_Post( _author.Last, _author.First );
-                    };
+                    }
                     if( _author.AuthorId > 0 ) {
                         // create audiobook if it doesn't exist
                         if( _audiobook.AudiobookId <= 0 ) {
@@ -213,7 +222,9 @@ namespace FileRenamer.Forms
                 }
                 catch( Exception ex ) {
                     this.Cursor = Cursors.Default;
-                    MessageBox.Show( string.Format( "An error occurred:\n{0}", ex.Message ), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    var caption = string.Format( "{0}.btnRename_Click( )", _module );
+                    GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                    GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
                 }
             }
 

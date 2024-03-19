@@ -1,9 +1,11 @@
-﻿using System;
+﻿using FileRenamer.Operations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace FileRenamer.Model {
     public class Audiobook {
@@ -18,7 +20,9 @@ namespace FileRenamer.Model {
                 this.YearSeries = string.Empty;
             }
             catch( Exception ex ) {
-                MessageBox.Show( ex.Message, string.Format( "Error in {0}.Constructor( )", _module ) );
+                var caption = string.Format( "{0}.Constructor( )( )", _module );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
         }
 
@@ -40,7 +44,9 @@ namespace FileRenamer.Model {
                 }
             }
             catch( Exception ex ) {
-                MessageBox.Show( ex.Message, string.Format( "Error in {0}.Constructor(dataRow)", _module ) );
+                var caption = string.Format( "{0}.Constructor( dataRow )", _module );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
         }
 
@@ -77,7 +83,9 @@ namespace FileRenamer.Model {
                 }
             }
             catch( Exception ex ) {
-                MessageBox.Show( ex.Message, string.Format( "Error in {0}.Constructor(title)", _module ) );
+                var caption = string.Format( "{0}.Constructor( title )", _module );
+                GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
+                GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
         }
 
