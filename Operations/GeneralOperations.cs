@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using TagLib;
 using FileRenamer.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using Google.Protobuf.WellKnownTypes;
 
 
 namespace FileRenamer.Operations {
@@ -26,61 +27,22 @@ namespace FileRenamer.Operations {
         }
 
         public static FolderpathInfo GetFolderpathInfo( string folderPath, List<Author> authors ) {
-            var fpi = new FolderpathInfo( ) { FilePath = folderPath };
-            /*  split filepath into n fields: 
-                0 is the drive, 
-                1 is "Books"
-                n-1 is "10 Minute Slices"
-            */
+            var fpi = new FolderpathInfo( ) { FolderPath = folderPath };
             try {
-                var first = string.Empty;
-                var last = string.Empty;
-                var fields = folderPath.Split( '\\' );
-                var i = fields.Length;
-                var audiobookTitle = string.Empty;
-                switch( fields.Length ) {
-                    case 5:
-                    case 8:
-                        //field 3/7 is the author first and last delimited by ", "
-                        //field 4/8 is the title
-                        i = i - 3;
-                        first = fields[i].Split( ',' )[1].Trim( );
-                        last = fields[i].Split( ',' )[0].Trim( );
-                        fpi.Author = authors.Find( x => x.Last == last && x.First == first );
-                        if( fpi.Author == null ) {
-                            fpi.Author = new Author( ) { First = first, Last = last };
-                        }
-                        if( fields[3].Contains( "-" ) ) {
-                            audiobookTitle = fields[i + 1].Split( '-' )[1].Trim( );
-                        } else {
-                            audiobookTitle = fields[i + 1];
-                        }
-                        break;
-                    case 4:
-                    case 7:
-                        //field 3/7 is author and title delimited by " - "
-                        i = i - 2;
-                        var author = fields[i].Split( '-' )[0].Trim( );
-                        first = author.Split( ',' )[1].Trim( );
-                        last = author.Split( ',' )[0].Trim( );
-                        fpi.Author = authors.Find( x => x.Last == last && x.First == first );
-                        if( fpi.Author == null ) {
-                            fpi.Author = new Author( ) { First = first, Last = last };
-                        }
-                        audiobookTitle = fields[i].Split( '-' )[1].Trim( );
-                        break;
-                }
-                if( fpi.Author.AuthorId > 0 ) {
-                    fpi.Author = AuthorOperations.Author_Get( fpi.Author.AuthorId );
+                if( fpi.Author.Last != string.Empty ) {
+                    fpi.Author = AuthorOperations.Author_Get( fpi.Author.Last, fpi.Author.First);
                 }
                 if( fpi.Author.AuthorId > 0 ) {
                     var authorAudiobooks = AudiobookOperation.Audiobook_GetListByAuthor( fpi.Author.AuthorId );
-                    fpi.Audiobook = authorAudiobooks.Find( x => x.Title == audiobookTitle );
-                    if( fpi.Audiobook == null ) {
-                        fpi.Audiobook = new Audiobook( ) {
-                            Title = audiobookTitle,
-                            AuthorId = fpi.Author.AuthorId
+                    var audiobook = authorAudiobooks.Find( x => x.Title == fpi.Audiobook.Title );
+                    if( audiobook == null ) {
+                        audiobook = new Audiobook( ) {
+                            Title = fpi.Audiobook.Title,
+                            AuthorId = fpi.Author.AuthorId,
+                            YearSeries = fpi.Audiobook.YearSeries,
+                            Number = fpi.Audiobook.Number
                         };
+                        fpi.Audiobook = audiobook;
                     }
                 }
             }
@@ -114,7 +76,7 @@ namespace FileRenamer.Operations {
                     System.Windows.Forms.Application.ProductName,
                     yearString,
                     firstYear,
-                    ( (char)169 ).ToString( ));
+                    ( (char)169 ).ToString( ) );
                 file.Save( );
             } else {
                 throw new Exception( string.Format( "Filepath {0} does not exist", tagInfo.FilePath ) );
@@ -130,7 +92,7 @@ namespace FileRenamer.Operations {
         }
 
         // message dialog
-        public static void ShowMessageDialog(string caption, string title, string detail ) {
+        public static void ShowMessageDialog( string caption, string title, string detail ) {
             var frmMessage = new FrmMessage( caption, title, detail );
             frmMessage.ShowDialog( );
 

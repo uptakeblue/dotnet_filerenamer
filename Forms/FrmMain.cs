@@ -12,13 +12,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
-namespace FileRenamer.Forms
-{
-    public partial class FrmMain : Form{
+namespace FileRenamer.Forms {
+    public partial class FrmMain : Form {
         private bool _dragging = false;
         private int _mouseDragX = 0;
         private int _mouseDragY = 0;
@@ -30,13 +30,12 @@ namespace FileRenamer.Forms
         private Audiobook _audiobook = new Audiobook( );
 
         //private List<Audiobook> _audiobooks;
-        private List<Author> _allAuthors = AuthorOperations.Author_GetList();
+        private List<Author> _allAuthors = AuthorOperations.Author_GetList( );
 
         const string _module = "FrmMain";
 
-        public FrmMain()
-        {
-            InitializeComponent();
+        public FrmMain( ) {
+            InitializeComponent( );
         }
 
         private void FormMain_Load( object sender, EventArgs e ) {
@@ -57,15 +56,15 @@ namespace FileRenamer.Forms
             lblTitle.Location = new Point( ( this.Width - lblTitle.Width ) / 2, 4 );
             btnExit.Parent = this;
             btnExit.Location = new Point( this.Width - btnExit.Width - 5, 3 );
-            lblDbHost.Text = string.Format( "Database Host: {0}", ConfigurationManager.AppSettings["connectionstringName"].ToUpper());
+            lblDbHost.Text = string.Format( "Database Host: {0}", ConfigurationManager.AppSettings["connectionstringName"].ToUpper( ) );
 
             var authors = new List<KeyValuePair<int, string>>( );
             foreach( var author in _allAuthors ) {
                 authors.Add( author.KeyValuePair );
             }
-            
+
             cboAuthor.DataSource = authors;
-            if(_settings.AuthorId > 0 ) {
+            if( _settings.AuthorId > 0 ) {
                 cboAuthor.SelectedValue = _settings.AuthorId;
             }
 
@@ -138,7 +137,7 @@ namespace FileRenamer.Forms
             if( cboAuthor.SelectedIndex > 0 ) {
                 var authorId = (int)cboAuthor.SelectedValue;
                 var audiobooks = AudiobookOperation.Audiobook_GetListByAuthor( authorId );
-                _author = AuthorOperations.Author_Get(authorId);
+                _author = AuthorOperations.Author_Get( authorId );
 
                 var sortedAudiobooks = audiobooks.OrderBy( a => a.YearSeries ).ThenBy( a => a.Number ).ThenBy( a => a.Title ).ToList( );
 
@@ -187,6 +186,22 @@ namespace FileRenamer.Forms
                     if( folder.Name != "10 Minute Slices" ) {
                         throw new Exception( "Source folder must be named \"10 Minute Slices\"." );
                     }
+
+                    var parentFolderName = folder.Parent.Name;
+                    string yearSeries = null;
+                    int? num = null;
+                    if( parentFolderName.Contains( "-" ) ) {
+                        yearSeries = parentFolderName.Split( '-' )[0].Trim( );
+                        if( yearSeries.Contains( " " ) ) {
+                            var tokens = yearSeries.Split( ' ' );
+                            int tmpInt;
+                            if( int.TryParse( tokens[tokens.Length - 1], out tmpInt ) ) {
+                                num = tmpInt;
+                                tokens = tokens.Take( tokens.Length - 1 ).ToArray( );
+                                yearSeries = string.Join( " ", tokens );
+                            }
+                        }
+                    }
                     // create author if it doesn't exist
                     if( _author.AuthorId <= 0 ) {
 
@@ -199,7 +214,14 @@ namespace FileRenamer.Forms
                     if( _author.AuthorId > 0 ) {
                         // create audiobook if it doesn't exist
                         if( _audiobook.AudiobookId <= 0 ) {
-                            _audiobook = AudiobookOperation.Audiobook_Post(_author.AuthorId, txtAudiobook.Text );
+                            _audiobook = AudiobookOperation.Audiobook_Post(
+                                new Audiobook( ) {
+                                    AuthorId = _author.AuthorId,
+                                    Title = txtAudiobook.Text,
+                                    YearSeries = yearSeries,
+                                    Number = num
+                                }, lstSourceFiles.Items.Count
+                            );
                         };
                         if( _audiobook.AuthorId.CompareTo( _author.AuthorId ) != 0 ) {
                             // if the audiobook has a different author, update it
@@ -244,7 +266,7 @@ namespace FileRenamer.Forms
             uint count = 1;
             foreach( var fileItem in _fileItemList ) {
                 var tagInfo = new TagInfo( ) {
-                    AlbumArtist =  _audiobook.Authorname,
+                    AlbumArtist = _audiobook.Authorname,
                     Performer = _audiobook.AuthornameReversed,
                     Album = _audiobook.Display,
                     Genre = "Audiobook",

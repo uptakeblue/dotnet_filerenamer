@@ -39,7 +39,7 @@ namespace FileRenamer.Operations {
 
                 MySqlDataReader rdr = cmd.ExecuteReader( );
                 while( rdr.Read( ) ) {
-                    object[ ] datarow = { rdr[0], rdr[1], rdr[2], rdr[3], rdr[4], rdr[5], rdr[6], rdr[8], rdr[11] };
+                    object[ ] datarow = { rdr[0], rdr[1], rdr[2], rdr[3], rdr[4], rdr[5], rdr[6], rdr[10], rdr[11] };
                     var audiobook = new Audiobook( datarow );
                     audiobookList.Add( audiobook );
 
@@ -72,7 +72,7 @@ namespace FileRenamer.Operations {
 
                 MySqlDataReader rdr = cmd.ExecuteReader( );
                 while( rdr.Read( ) ) {
-                    object[ ] datarow = { rdr[0], rdr[1], rdr[2], rdr[3], rdr[4], rdr[5], rdr[6], rdr[8], rdr[11] };
+                    object[ ] datarow = { rdr[0], rdr[1], rdr[2], rdr[3], rdr[4], rdr[5], rdr[6], rdr[10], rdr[11] };
                     audiobook = new Audiobook( datarow );
                 }
             }
@@ -84,8 +84,7 @@ namespace FileRenamer.Operations {
             return audiobook;
         }
 
-        public static Audiobook Audiobook_Post( int authorId, string title ) {
-            Audiobook audiobook = null;
+        public static Audiobook Audiobook_Post( Audiobook audiobook, int fileCount  ) {
             var conn = new MySqlConnection( );
             conn.ConnectionString = _connectionString;
 
@@ -96,11 +95,13 @@ namespace FileRenamer.Operations {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.audiobook_Post";
 
-                cmd.Parameters.AddWithValue( "@author_id", authorId );
-                cmd.Parameters.AddWithValue( "@year_series", null );
-                cmd.Parameters.AddWithValue( "@number", null );
-                cmd.Parameters.AddWithValue( "@title", title );
+                cmd.Parameters.AddWithValue( "@author_id", audiobook.AuthorId );
+                cmd.Parameters.AddWithValue( "@year_series", audiobook.YearSeries );
+                cmd.Parameters.AddWithValue( "@number", audiobook.Number );
+                cmd.Parameters.AddWithValue( "@title", audiobook.Title );
                 cmd.Parameters.AddWithValue( "@note", null );
+                cmd.Parameters.AddWithValue( "@year_published", null );
+                cmd.Parameters.AddWithValue( "@file_count", fileCount );
                 cmd.Parameters.AddWithValue( "@read_date", null );
 
                 cmd.Parameters.Add( "@audiobook_id", MySqlDbType.Int32 );
@@ -109,7 +110,7 @@ namespace FileRenamer.Operations {
                 cmd.ExecuteNonQuery( );
 
                 var audiobookId = (int)cmd.Parameters["@audiobook_id"].Value;
-                audiobook = Audiobook_Get( audiobookId );
+                audiobook.AudiobookId = audiobookId;
 
             }
             catch( Exception ex ) {
@@ -136,7 +137,6 @@ namespace FileRenamer.Operations {
                 cmd.Parameters.AddWithValue( "@year_series", audiobook.YearSeries );
                 cmd.Parameters.AddWithValue( "@number", audiobook.Number );
                 cmd.Parameters.AddWithValue( "@title", audiobook.Title );
-
                 cmd.ExecuteNonQuery( );
 
             }

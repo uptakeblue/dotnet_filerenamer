@@ -22,6 +22,9 @@ namespace FileRenamer.Forms {
 
         private void populateAudiobookControls( string folderPath ) {
             var folderpathInfo = GeneralOperations.GetFolderpathInfo( folderPath, _allAuthors );
+            if( folderpathInfo.Audiobook.AudiobookId <=0 ) {
+                AudiobookOperation.Audiobook_Post( folderpathInfo.Audiobook, lstRenamedFiles.Items.Count );
+            }
 
             _author = folderpathInfo.Author;
             _audiobook = folderpathInfo.Audiobook;
