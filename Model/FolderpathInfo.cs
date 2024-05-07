@@ -32,7 +32,7 @@ namespace FileRenamer.Model {
                 string authorField = String.Empty;
                 string titleInfoField = String.Empty;
                 var audiobookTitle = string.Empty;
-                string yearSeries = string.Empty;
+                string series = string.Empty;
                 switch( fields.Length ) {
                     case 2:
                         // Albom, Mitch - The Five People You Meet in Heaven/10 Mnute Slices
@@ -54,18 +54,18 @@ namespace FileRenamer.Model {
                 if( titleInfoField.Length > 0 ) {
                     if( titleInfoField.Contains( "-" ) ) {
                         Audiobook.Title = titleInfoField.Split( '-' )[1].Trim( );
-                        yearSeries = titleInfoField.Split( '-' )[0].Trim( );
-                        if( yearSeries.Contains( " " ) ) {
-                            var tokens = yearSeries.Split( ' ' );
+                        series = titleInfoField.Split( '-' )[0].Trim( );
+                        if( series.Contains( " " ) ) {
+                            var tokens = series.Split( ' ' );
                             decimal tmpDeci;
                             if( decimal.TryParse( tokens[tokens.Length - 1], out tmpDeci ) ) {
                                 this.Audiobook.Number = tmpDeci;
                                 tokens = tokens.Take( tokens.Length - 1 ).ToArray( );
-                                this.Audiobook.YearSeries = string.Join( " ", tokens );
+                                this.Audiobook.Series = string.Join( " ", tokens );
                             }
                         }
                         else{
-                            Audiobook.YearSeries= yearSeries;
+                            Audiobook.Series= series;
                         }
 
                     } else {

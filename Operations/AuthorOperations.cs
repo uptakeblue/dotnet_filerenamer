@@ -153,7 +153,7 @@ namespace FileRenamer
 
             }
             catch( Exception ex ) {
-                var caption = string.Format( "{0}.Audiobook_Get( audiobookId )", _module );
+                var caption = string.Format( "{0}.Author_Post( audiobookId )", _module );
                 GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
                 GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }

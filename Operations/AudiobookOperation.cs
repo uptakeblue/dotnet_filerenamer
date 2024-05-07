@@ -96,7 +96,7 @@ namespace FileRenamer.Operations {
                 cmd.CommandText = "dbo.audiobook_Post";
 
                 cmd.Parameters.AddWithValue( "@author_id", audiobook.AuthorId );
-                cmd.Parameters.AddWithValue( "@year_series", audiobook.YearSeries );
+                cmd.Parameters.AddWithValue( "@series", audiobook.Series );
                 cmd.Parameters.AddWithValue( "@number", audiobook.Number );
                 cmd.Parameters.AddWithValue( "@title", audiobook.Title );
                 cmd.Parameters.AddWithValue( "@note", null );
@@ -114,7 +114,7 @@ namespace FileRenamer.Operations {
 
             }
             catch( Exception ex ) {
-                var caption = string.Format( "{0}.Audiobook_Get( audiobookId )", _module );
+                var caption = string.Format( "{0}.Audiobook_Post( audiobookId )", _module );
                 GeneralOperations.WriteToLogFile( string.Format( "Error in {0}: {1}", caption, ex.Message ) );
                 GeneralOperations.ShowMessageDialog( "An Error Occurred", caption, ex.Message );
             }
@@ -134,7 +134,7 @@ namespace FileRenamer.Operations {
 
                 cmd.Parameters.AddWithValue( "@audiobook_id", audiobook.AudiobookId );
                 cmd.Parameters.AddWithValue( "@author_id", audiobook.AuthorId );
-                cmd.Parameters.AddWithValue( "@year_series", audiobook.YearSeries );
+                cmd.Parameters.AddWithValue( "@series", audiobook.Series );
                 cmd.Parameters.AddWithValue( "@number", audiobook.Number );
                 cmd.Parameters.AddWithValue( "@title", audiobook.Title );
                 cmd.ExecuteNonQuery( );

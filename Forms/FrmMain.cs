@@ -187,21 +187,8 @@ namespace FileRenamer.Forms {
                         throw new Exception( "Source folder must be named \"10 Minute Slices\"." );
                     }
 
-                    var parentFolderName = folder.Parent.Name;
-                    string yearSeries = null;
-                    int? num = null;
-                    if( parentFolderName.Contains( "-" ) ) {
-                        yearSeries = parentFolderName.Split( '-' )[0].Trim( );
-                        if( yearSeries.Contains( " " ) ) {
-                            var tokens = yearSeries.Split( ' ' );
-                            int tmpInt;
-                            if( int.TryParse( tokens[tokens.Length - 1], out tmpInt ) ) {
-                                num = tmpInt;
-                                tokens = tokens.Take( tokens.Length - 1 ).ToArray( );
-                                yearSeries = string.Join( " ", tokens );
-                            }
-                        }
-                    }
+                    var fpi = new FolderpathInfo( ) {FolderPath =folder.FullName };
+
                     // create author if it doesn't exist
                     if( _author.AuthorId <= 0 ) {
 
@@ -218,8 +205,8 @@ namespace FileRenamer.Forms {
                                 new Audiobook( ) {
                                     AuthorId = _author.AuthorId,
                                     Title = txtAudiobook.Text,
-                                    YearSeries = yearSeries,
-                                    Number = num
+                                    Series = fpi.Audiobook.Series,
+                                    Number = fpi.Audiobook.Number
                                 }, lstSourceFiles.Items.Count
                             );
                         };

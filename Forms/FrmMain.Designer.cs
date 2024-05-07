@@ -558,6 +558,7 @@
             this.BackColor = System.Drawing.Color.Green;
             this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(548, 603);
+            this.ControlBox = false;
             this.Controls.Add(this.tabMain);
             this.ForeColor = System.Drawing.SystemColors.InactiveCaption;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

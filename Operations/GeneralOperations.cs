@@ -35,14 +35,9 @@ namespace FileRenamer.Operations {
                 if( fpi.Author.AuthorId > 0 ) {
                     var authorAudiobooks = AudiobookOperation.Audiobook_GetListByAuthor( fpi.Author.AuthorId );
                     var audiobook = authorAudiobooks.Find( x => x.Title == fpi.Audiobook.Title );
-                    if( audiobook == null ) {
-                        audiobook = new Audiobook( ) {
-                            Title = fpi.Audiobook.Title,
-                            AuthorId = fpi.Author.AuthorId,
-                            YearSeries = fpi.Audiobook.YearSeries,
-                            Number = fpi.Audiobook.Number
-                        };
-                        fpi.Audiobook = audiobook;
+                    if( audiobook != null ) {
+                        fpi.Audiobook.AudiobookId = audiobook.AudiobookId;
+                        fpi.Audiobook.AuthorId = audiobook.AuthorId;
                     }
                 }
             }
