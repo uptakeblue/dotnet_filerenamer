@@ -31,8 +31,6 @@ namespace FileRenamer.Model {
             try {
                 this.AudiobookId = (int)dataRow[0];
                 this.AuthorId = (int)dataRow[1];
-                this._authorLast = (string)dataRow[2];
-                this._authorFirst = (string)dataRow[3];
 
                 this.YearSeries = dataRow[4] != DBNull.Value ? (string)dataRow[4] : null;
                 if( dataRow[5] != DBNull.Value ) {
@@ -91,8 +89,6 @@ namespace FileRenamer.Model {
         }
 
         public int AuthorId { get; set; }
-        private string _authorLast { get; set; }
-        private string _authorFirst { get; set; }
         public int AudiobookId { get; set; }
         public string Title { get; set; }
         public string Series{ get; set; }
@@ -116,11 +112,11 @@ namespace FileRenamer.Model {
                 var display = string.Empty;
                 if( this.Number > new Decimal( 0.0 ) ) {
                     display = ( (Decimal)this.Number ).ToString( "00.#" );
-                    if( !string.IsNullOrEmpty( this.YearSeries ) ) {
-                        display = string.Format( "{0} {1}", this.YearSeries, display );
+                    if( !string.IsNullOrEmpty( this.Series ) ) {
+                        display = string.Format( "{0} {1}", this.Series, display );
                     }
-                } else if( !string.IsNullOrEmpty( this.YearSeries ) ) {
-                    display = this.YearSeries;
+                } else if( !string.IsNullOrEmpty( this.Series ) ) {
+                    display = this.Series;
                     display = string.Format( "{0} - {1}", display, this.Title );
                 }
                 if( !string.IsNullOrEmpty( display ) ) {
@@ -130,18 +126,6 @@ namespace FileRenamer.Model {
                     display = this.Title;
                 }
                 return display;
-            }
-        }
-
-        public string Authorname {
-            get {
-                return string.Format( "{0}{1}", string.IsNullOrEmpty( this._authorFirst ) ? "" : string.Format( "{0} ", this._authorLast ), this._authorLast );
-            }
-        }
-
-        public string AuthornameReversed {
-            get {
-                return string.Format( "{0}{1}", this._authorLast, string.IsNullOrEmpty( this._authorFirst ) ? "" : string.Format( ", {0}", this._authorFirst ) );
             }
         }
     }

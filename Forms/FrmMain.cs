@@ -161,12 +161,6 @@ namespace FileRenamer.Forms {
 
         }
 
-        private void txtAudiobook_DoubleClick( object sender, EventArgs e ) {
-            if( _audiobook.AudiobookId > 0 ) {
-                editAudiobook( _audiobook );
-            }
-        }
-
         private void btnGenerateName_Click( object sender, EventArgs e ) {
             generateFileNames( );
         }
@@ -187,11 +181,13 @@ namespace FileRenamer.Forms {
                         throw new Exception( "Source folder must be named \"10 Minute Slices\"." );
                     }
 
-                    var fpi = new FolderpathInfo( ) {FolderPath =folder.FullName };
+                    // var fpi = new FolderpathInfo( ) {FolderPath =folder.FullName };
+                    var fpi = GeneralOperations.GetFolderpathInfo( folder.FullName, _allAuthors );
+                    _author = fpi.Author;
+                    _audiobook = fpi.Audiobook;
 
                     // create author if it doesn't exist
                     if( _author.AuthorId <= 0 ) {
-
                         var caption = string.Format( "{0}.btnRename_Click( )", _module );
                         GeneralOperations.WriteToLogFile( string.Format( "Message in: {0}", caption ) );
                         GeneralOperations.ShowMessageDialog( "The author does not exist", caption, string.Format( "A new author \"{0}\"  will be created", _author.Name ) );
@@ -216,6 +212,7 @@ namespace FileRenamer.Forms {
                             AudiobookOperation.Audiobook_Put( _audiobook );
                             _audiobook = AudiobookOperation.Audiobook_Get( _audiobook.AudiobookId );
                         }
+
                         refreshData( );
                         populateAuthors( );
                         cboAuthor.SelectedValue = _author.AuthorId;
@@ -240,21 +237,13 @@ namespace FileRenamer.Forms {
 
         }
 
-        private void grdAudiobook_CellDoubleClick( object sender, DataGridViewCellEventArgs e ) {
-            if( e.RowIndex == -1 )
-                return;
-            var audiobookId = (int)grdAudiobook.Rows[e.RowIndex].Cells[0].Value;
-            var audiobook = AudiobookOperation.Audiobook_Get( audiobookId );
-            editAudiobook( audiobook );
-        }
-
         private void backgroundWorker1_DoWork( object sender, DoWorkEventArgs e ) {
             var worker = sender as BackgroundWorker;
             uint count = 1;
             foreach( var fileItem in _fileItemList ) {
                 var tagInfo = new TagInfo( ) {
-                    AlbumArtist = _audiobook.Authorname,
-                    Performer = _audiobook.AuthornameReversed,
+                    AlbumArtist = _author.Name,
+                    Performer = _author.NameReversed,
                     Album = _audiobook.Display,
                     Genre = "Audiobook",
                     FilePath = fileItem.SourceFilePath,

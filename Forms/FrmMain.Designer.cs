@@ -166,10 +166,10 @@
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExit.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.btnExit.Image = ((System.Drawing.Image)(resources.GetObject("btnExit.Image")));
-            this.btnExit.Location = new System.Drawing.Point(505, 5);
+            this.btnExit.Location = new System.Drawing.Point(510, 3);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(24, 19);
-            this.btnExit.TabIndex = 106;
+            this.btnExit.TabIndex = 107;
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
@@ -223,7 +223,6 @@
             this.txtAudiobook.Name = "txtAudiobook";
             this.txtAudiobook.Size = new System.Drawing.Size(360, 20);
             this.txtAudiobook.TabIndex = 113;
-            this.txtAudiobook.DoubleClick += new System.EventHandler(this.txtAudiobook_DoubleClick);
             // 
             // lblAuthor
             // 
@@ -485,7 +484,6 @@
             this.grdAudiobook.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdAudiobook.Size = new System.Drawing.Size(529, 453);
             this.grdAudiobook.TabIndex = 2;
-            this.grdAudiobook.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdAudiobook_CellDoubleClick);
             // 
             // audiobookId
             // 
@@ -556,7 +554,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Green;
-            this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(548, 603);
             this.ControlBox = false;
             this.Controls.Add(this.tabMain);
@@ -594,7 +591,6 @@
         private System.Windows.Forms.ListBox lstSourceFiles;
         private System.Windows.Forms.Label lblSourceFiles;
         private System.Windows.Forms.TabPage tabFiles;
-        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.ProgressBar pgbRename;
         private System.Windows.Forms.Label lblAudiobook;
@@ -627,6 +623,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn date;
         private System.Windows.Forms.DataGridViewCheckBoxColumn is_read;
         private System.Windows.Forms.Label lblDbHost;
+        private System.Windows.Forms.Button btnExit;
     }
 }
 

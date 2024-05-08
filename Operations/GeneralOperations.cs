@@ -33,11 +33,11 @@ namespace FileRenamer.Operations {
                     fpi.Author = AuthorOperations.Author_Get( fpi.Author.Last, fpi.Author.First);
                 }
                 if( fpi.Author.AuthorId > 0 ) {
+                    fpi.Audiobook.AuthorId = fpi.Author.AuthorId;
                     var authorAudiobooks = AudiobookOperation.Audiobook_GetListByAuthor( fpi.Author.AuthorId );
                     var audiobook = authorAudiobooks.Find( x => x.Title == fpi.Audiobook.Title );
                     if( audiobook != null ) {
                         fpi.Audiobook.AudiobookId = audiobook.AudiobookId;
-                        fpi.Audiobook.AuthorId = audiobook.AuthorId;
                     }
                 }
             }
